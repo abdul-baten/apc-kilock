@@ -1,0 +1,26 @@
+.borderless {
+  border-style: none;
+  border-width: 0px;
+  box-shadow: none;
+}
+
+table {
+  th {
+    text-align: center;
+  }
+}
+
+.inner-table {
+  margin-bottom: 3px;
+  td {
+    padding: 1px 8px;
+  }
+}
+
+
+#error-message-area {
+color: red;
+margin-top: 8px;
+margin-left: 64px;
+}
+

@@ -1,0 +1,147 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+
+  <div class="form-horizontal">
+    <div class="form-group">
+      <label for="searchName" class="col-md-2 control-label">{{ 'NAME' | translate }}</label>
+      <div class="col-md-8">
+        <input type="text" class="form-control" ng-model="searchName" ng-change="search()" maxlength="50" placeholder="{{ searchTextPlaceholder }}" id="searchName">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="searchProject" class="col-md-2 control-label">{{ 'OWN_GROUP' | translate }}</label>
+      <div class="dropdown col-md-8">
+        <select ng-change="search()" class="form-control" ng-model="searchProject" ng-options="project._id as project.name for project in projects" id="searchProject"></select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="searchStatus" class="col-md-2 control-label">{{ 'ATTENDANCE_STATUS' | translate }}</label>
+      <div class="col-md-8">
+        <span ng-repeat="status in attendanceStatusValues">
+          <input type="checkbox" ng-change="search()" ng-model="checkAttendanceStatuses[status]" value="status" />{{ displayAttendanceStatus(status) }}
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="searchYearMonth" class="control-label col-md-2 col-sm-2 col-xs-2">{{ 'YEAR_MONTH' | translate }}</label>
+      <div class="form-inline col-md-10 col-sm-10 col-xs-10">
+        <select ng-change="search()" class="form-control" ng-model="searchStartYear" ng-options="year as year + '年' for year in years">
+          <option value=""></option>
+        </select>
+        <select ng-change="search()" class="form-control" ng-model="searchStartMonth" ng-options="month as month + '月' for month in months">
+          <option value=""></option>
+        </select>
+        <span style="margin: 0px 10px;">～</span>
+        <select ng-change="search()" class="form-control" ng-model="searchEndYear" ng-options="year as year + '年' for year in years">
+          <option value=""></option>
+        </select>
+        <select ng-change="search()" class="form-control" ng-model="searchEndMonth" ng-options="month as month + '月' for month in months">
+          <option value=""></option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{{ 'NAME' | translate }}</th>
+        <th>{{ 'YEAR_MONTH' | translate }}</th>
+        <th>{{ 'ATTENDANCE_STATUS' | translate }}</th>
+        <th>{{ 'UPDATE_ATTENDANCE_STATUS' | translate }}</th>
+        <th>{{ 'LINK'| translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in list">
+        <td>
+          <div>{{ item.user.employeeCode }}</div>
+          <div>{{ item.user.name }}</div>
+        </td>
+        <td>{{ item.year }}年{{ item.month }}月</td>
+        <td>{{ displayAttendanceStatus(item.status) }}</td>
+        <td>
+          <button type="button" class="btn btn-default" data-toggle="modal" data-target=".updateAttendanceStatus"
+            ng-show="showAttendApplicationButton(item.status, item.user)"
+            ng-click="showUpdateAttendanceStatusModal($index, item.user._id, item.year, item.month, attendanceActions['applicate'])">
+            <span>{{ "ATTENDANCE_ACTION_APPLICATE" | translate }}</span>
+          </button>
+          <button type="button" class="btn btn-default" data-toggle="modal" data-target=".updateAttendanceStatus"
+            ng-show="showAttendMiddleButton(item.status, item.user)"
+            ng-click="showUpdateAttendanceStatusModal($index, item.user._id, item.year, item.month, attendanceActions['accept_middle'])">
+            <span>{{ "ATTENDANCE_ACTION_ACCEPT_MIDDLE" | translate }}</span>
+          </button>
+          <button type="button" class="btn btn-default" data-toggle="modal" data-target=".updateAttendanceStatus"
+            ng-show="showAttendMiddleButton(item.status, item.user)"
+            ng-click="showUpdateAttendanceStatusModal($index, item.user._id, item.year, item.month, attendanceActions['denegate_middle'])">
+            <span>{{ "ATTENDANCE_ACTION_DENEGATE_MIDDLE" | translate }}</span>
+          </button>
+          <button type="button" class="btn btn-default" data-toggle="modal" data-target=".updateAttendanceStatus"
+            ng-show="showAttendBetterButton(item.status, item.user)"
+            ng-click="showUpdateAttendanceStatusModal($index, item.user._id, item.year, item.month, attendanceActions['accept_better'])">
+            <span>{{ "ATTENDANCE_ACTION_ACCEPT_BETTER" | translate }}</span>
+          </button>
+          <button type="button" class="btn btn-default" data-toggle="modal" data-target=".updateAttendanceStatus"
+            ng-show="showAttendBetterButton(item.status, item.user)"
+            ng-click="showUpdateAttendanceStatusModal($index, item.user._id, item.year, item.month, attendanceActions['denegate_better'])">
+            <span>{{ "ATTENDANCE_ACTION_DENEGATE_BETTER" | translate }}</span>
+          </button>
+          <button type="button" class="btn btn-default" data-toggle="modal" data-target=".updateAttendanceStatus"
+            ng-show="showAttendTopButton(item.status, item.user)"
+            ng-click="showUpdateAttendanceStatusModal($index, item.user._id, item.year, item.month, attendanceActions['accept_top'])">
+            <span>{{ "ATTENDANCE_ACTION_ACCEPT_TOP" | translate }}</span>
+          </button>
+          <button type="button" class="btn btn-default" data-toggle="modal" data-target=".updateAttendanceStatus"
+            ng-show="showAttendTopButton(item.status, item.user)"
+            ng-click="showUpdateAttendanceStatusModal($index, item.user._id, item.year, item.month, attendanceActions['denegate_top'])">
+            <span>{{ "ATTENDANCE_ACTION_DENEGATE_TOP" | translate }}</span>
+          </button>
+          <button type="button" class="btn btn-default" data-toggle="modal" data-target=".updateAttendanceStatus"
+            ng-show="showAttendRevertTopButton(item.status, item.user)"
+            ng-click="showUpdateAttendanceStatusModal($index, item.user._id, item.year, item.month, attendanceActions['revert_top'])">
+            <span>{{ "ATTENDANCE_ACTION_REVERT_TOP" | translate }}</span>
+          </button>
+        </td>
+        <td>
+          <a class="btn btn-primary" ng-href="/user/{{item.user.id}}/attendance?year={{item.year}}&month={{item.month}}">{{ 'ATTENDANCE' | translate }}</a>
+          <a class="btn btn-primary" ng-href="/attendance-status-log?year={{item.year}}&month={{item.month}}&searchTargetUserName={{item.user.name}}">{{ 'ATTENDANCE_STATUS_LOG' | translate }}</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div ng-if="maxPageNum > 0" class="text-center">
+    <ul class="pagination">
+      <li ng-if="!existPrevPage()" class="disabled"><a>&laquo;</a></li>
+      <li ng-if="existPrevPage()"><a ng-click="prevPage()">&laquo;</a></li>
+
+      <li ng-repeat="n in pagingNumList" ng-class="{active: n == nowPageNum}">
+        <a ng-click="movePage(n)">{{n}}</a>
+      </li>
+
+      <li ng-if="!existNextPage()" class="disabled"><a>&raquo;</a></li>
+      <li ng-if="existNextPage()" ><a ng-click="nextPage()">&raquo;</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="modal fade updateAttendanceStatus" tabindex="-1" role="dialog" aria-labelledby="updateAttendanceStatusModalLabel"
+     aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span>
+        </button>
+        <h4 class="modal-title">{{ displayAttendanceAction(attendanceAction) }}</h4>
+      </div>
+      <div class="modal-body">
+        {{ displayAttendanceAction(attendanceAction) }} してよろしいですか？
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'CANCEL' | translate }}</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="execAttendanceAction()" ng-disabled="">{{ displayAttendanceAction(attendanceAction) }}</button>
+      </div>
+    </div>
+  </div>
+</div>

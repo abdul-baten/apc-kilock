@@ -1,0 +1,34 @@
+<div ng-include="'components/navbar/staticNavbar.html'"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>Sign up</h1>
+    </div>
+    <div class="col-sm-12">
+      <form role="form">
+
+        <div class="form-group" ng-class="isError('name')">
+          <label class="control-label">{{ 'NAME' | translate }}</label>
+          <div class="form-inline">
+            <input type="text" class="form-control" ng-model="register.name" placeholder="NAME">
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <div class="form-inline">
+            <a href="/terms/" target="_blank">{{ 'TERM_OF_SERVICE' | translate }} <i class="fa fa-external-link"></i></a>
+          </div>
+        </div>
+
+        <div class="checkbox">
+          <label><input type="checkbox" ng-model="agreeTerm">{{ 'AGREE_TERM_OF_SERVICE' | translate }}</label>
+        </div>
+
+        <div>
+          <button type="button" class="btn btn-primary" ng-disabled="!agreeTerm" ng-click="submit()">{{ 'REGISTER' | translate }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

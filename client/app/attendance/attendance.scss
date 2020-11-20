@@ -1,0 +1,115 @@
+.align-right {
+  text-align: right;
+}
+
+table.summary-table {
+  tbody {
+    td {
+      text-align: right;
+    }
+  }
+  margin-bottom: 5px;
+}
+
+#attendance-reason {
+  max-width: 250px;
+}
+
+#timecardModalInput {
+  table {
+    border-top-style: none;
+    border-left-style: none;
+    border-bottom-style: none;
+    thead {
+      &:first-child {
+        tr {
+          &:first-child {
+            th {
+              &:not(.timecard-op) {
+                border-top: 1px solid #ddd;
+              }
+            }
+          }
+        }
+      }
+    }
+    .timecard-op {
+      background-color: white;
+      border-top-style: none;
+      border-left-style: none;
+      border-bottom-style: none;
+    }
+    .form-control {
+      background-color: white;
+    }
+    .form-group {
+      margin-bottom: 0px !important;
+    }
+    .timecard-time-prefix {
+      float: left;
+      margin-top: 8px;
+      margin-left: -5px;
+      font-size: small;
+    }
+    .timecard-time-form {
+      margin-left: 14px;
+    }
+    .work-time {
+      margin-top: 8px;
+      margin-left: 13px;
+    }
+  }
+  #error-message-area {
+    color: red;
+    margin-top: 8px;
+    margin-left: 64px;
+  }
+}
+
+#travelCostModalInput {
+  .item-group {
+    margin-bottom:0px;
+  }
+  table {
+    border-top-style: none;
+    border-left-style: none;
+    border-bottom-style: none;
+    thead {
+      &:first-child {
+        tr {
+          &:first-child {
+            th {
+              &:not(.travelcost-op) {
+                border-top: 1px solid #ddd;
+              }
+            }
+          }
+        }
+      }
+    }
+    .travelcost-op {
+      background-color: white;
+      border-top-style: none;
+      border-left-style: none;
+      border-bottom-style: none;
+    }
+  }
+  #error-message-area {
+    color: red;
+    margin-top: 8px;
+    margin-left: 64px;
+  }
+  .travel-comment-table {
+    font-size: 12px;
+    margin: 1px;
+  }
+  .travel-comment-name {
+    border: none;
+    padding: 0px;
+    width: 60px;
+  }
+  .travel-comment-comment {
+    border: none;
+    padding: 0px;
+  }
+}

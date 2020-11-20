@@ -1,0 +1,72 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{{ 'REQUEST_DATE' | translate }}</th>
+        <th>{{ 'REQUESTER' | translate }}</th>
+        <th>{{ 'OVERTIME_REQUEST_DATE' | translate }}</th>
+        <th>{{ 'OVERTIME_REQUEST_TIME' | translate }}</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="o in overtimeRequests">
+        <td>{{ o.requestTime | date: 'yyyy/MM/dd HH:mm' }}</td>
+        <td>{{ o.requestUser.employeeCode }} {{ o.requestUser.name }}</td>
+        <td>{{ displayOvertimeRequestDate(o) }}</td>
+        <td>{{ displayOvertimeRequestTime(o) }}</td>
+        <td>
+          <button type="button" class="btn btn-default"
+                  data-toggle="modal"
+                  ng-click="displayConfirmDialog(o, $index)">
+            {{ 'OVERTIME_REQUEST_CONFIRM_BUTTON' | translate }}
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="overtimeRequestConfirm" aria-labelledby="overtimeRequestConfirm" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="hideConfirmDialog()">
+          <span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span>
+        </button>
+        <h4 class="modal-title">{{ 'OVERTIME_REQUEST_CONFIRM' | translate }}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{{ 'REQUESTER' | translate }}: {{ editOvertimeRequest.requestUser.employeeCode }} {{editOvertimeRequest.requestUser.name}}</p>
+        <p>{{ 'REQUEST_DATE' | translate }}: {{editOvertimeRequest.requestTime | date: 'yyyy/MM/dd HH:mm:ss' }}</p>
+        <p>{{ 'OVERTIME_REQUEST_DATE' | translate }}: {{ displayOvertimeRequestDate(editOvertimeRequest)}}</p>
+        <p>{{ 'OVERTIME_REQUEST_TIME' | translate }}: {{displayOvertimeRequestTime(editOvertimeRequest)}} </p>
+        <p>{{ 'OVERTIME_REQUEST_REASON' | translate }}: </p>
+        <p>{{editOvertimeRequest.reason}}</p>
+        <br>
+        <p>{{ 'REMAND_REASON' | translate }}</p>
+        <form role="form">
+          <div id="reason-of-editing">
+            <textarea id="reason-of-remand-input" rows="6" ng-model="remandReasonText"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="acceptOvertimeRequest()">
+          {{ 'APPROVE' | translate }}
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="remandOvertimeRequest()" ng-disabled="!remandReasonText">
+          {{ 'REMAND' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  #reason-of-remand-input {
+    resize: none;
+    width:100%;
+  }
+</style>

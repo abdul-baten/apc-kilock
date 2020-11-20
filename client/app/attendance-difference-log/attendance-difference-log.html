@@ -1,0 +1,35 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+  <div class="table-responsive" ng-if="attendanceDifferenceLogs.length > 0">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>{{ 'USER_ID' | translate }}</th>
+          <th>{{ 'YEAR' | translate }}</th>
+          <th>{{ 'MONTH' | translate }}</th>
+          <th>{{ 'DAY' | translate }}</th>
+          <th>{{ 'ATTENDANCE_TIME' | translate }}</th>
+          <th>{{ 'DETAILS_TIME' | translate }}</th>
+          <th>{{ 'HAPPENED_AT' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="attendanceDifferenceLog in attendanceDifferenceLogs" ng-form="attendanceForm">
+          <td>{{attendanceDifferenceLog.userId}}</td>
+          <td>{{attendanceDifferenceLog.year}}</td>
+          <td>{{attendanceDifferenceLog.month}}</td>
+          <td>{{attendanceDifferenceLog.day}}</td>
+          <td>{{attendanceDifferenceLog.attendanceTime}}</td>
+          <td>{{attendanceDifferenceLog.timecardTime}}</td>
+          <td>{{attendanceDifferenceLog.errorHappened | date: 'dd MMMM yyyy, HH:ss'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="" ng-if="attendanceDifferenceLogs.length === 0">
+    <div class="jumbotron">
+      <h3>{{ "NO_TIME_DIFFERENCE_FOUND" | translate }}</h3>
+    </div>
+  </div>
+</div>

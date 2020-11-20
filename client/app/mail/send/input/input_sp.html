@@ -1,0 +1,103 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container">
+<small>
+  <h2>{{ 'GROUP_MAIL_BROADCAST' | translate }}</h2>
+  <hr>
+
+  <form name="sendmailInput" ng-show="mailTemplate" novalidate>
+    <div class="row">
+      <div class="col-md-4">
+        <h3>{{ 'GROUP_MAIL_DESCRIPTION' | translate }}</h3>
+        <p>{{ 'MAIL_SUBJECT' | translate }}:
+          <input type="text" name="subject" ng-model="mailTemplate.subject" required ng-minlength="1" ng-maxlength="{{mailTemplate.subjectMaxLength}}">
+          <span class="error" ng-show="sendmailInput.subject.$error.maxlength">{{ 'too long!' | translate }}</span>
+          <span class="error" ng-show="sendmailInput.subject.$error.required">{{ 'too short!' | translate }}</span>
+        </p>
+        <p>{{ 'MAIL_BODY' | translate }}:</p>
+        <p>
+          <textarea id="textarea" name="text" ng-model="mailTemplate.text" ng-trim="false" cols="40" rows="10" ng-required="true">
+          </textarea>
+        </p>
+        <p>{{ 'Number of characters left' | translate }}: {{ numCharsLeft }}</p>
+      </div>
+      <div class="col-md-8">
+        <div class="row">
+          <h3>{{ 'SENDING_GROUP' | translate }}</h3>
+
+          <div ng-repeat="groupTag in groups.groupTags" class="col-md-4">
+            <label class="control-label">{{groupTag.tag.name}}</label>
+
+            <div class="checkbox" ng-repeat="group in groupTag.groups" class="col-md-4">
+              <label><input type="checkbox" ng-model="group.checked"/>{{group.name}}</label>
+            </div>
+          </div>
+          <div class="col-md-4" ng-show="displayNoTagGroups(groups.noTagGroups)">
+            <label class="control-label">{{ 'ETC_GROUP' | translate }}</label>
+
+            <div class="checkbox" ng-repeat="group in groups.noTagGroups" class="col-md-4">
+              <label><input type="checkbox" ng-model="group.checked"/>{{group.name}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary" ng-click="confirm()">{{ 'MAIL_SEND_CONFIRM' | translate }}</button>
+  </form>
+</small>
+</div>
+
+<div class="modal fade" id="notification" tabindex="-1" role="dialog" aria-labelledby="notification" aria-hidden="true">
+<small>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p>{{notificationMessage}}</p>
+      </div>
+    </div>
+  </div>
+</small>
+</div>
+
+<div class="modal fade" id="sendingMailConfirm" tabindex="-1" role="dialog" aria-labelledby="sendingMailConfirm" aria-hidden="true">
+<small>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{ 'MAIL_SEND_CONFIRM_DISPLAY' | translate }}</h4>
+      </div>
+      <div class="modal-body">
+        <h4>{{ 'MAIL_SUBJECT' | translate}}</h4>
+        <p>{{mailTemplate.subject}}</p>
+        <br>
+        <h4>{{ 'MAIL_BODY' | translate }}</h4>
+        <pre>{{mailTemplate.text}}</pre>
+        <br>
+        <h4>{{ 'SENDING_GROUP' | translate }}</h4>
+        <div ng-repeat="groupTag in groups.groupTags | orderBy: 'name'" ng-show="displayGroupsConfirm(groupTag.groups)">
+          <b>{{groupTag.tag.name}}:</b>
+          <p ng-repeat="group in groupTag.groups | orderBy: 'name'" ng-show="group.checked">{{group.name}}</p>
+        </div>
+        <div ng-show="displayGroupsConfirm(groups.noTagGroups)">
+          <b>{{ 'ETC_GROUP' | translate }}:</b>
+          <p ng-repeat="group in groups.noTagGroups | orderBy: 'name'" ng-show="group.checked">{{group.name}}</p>
+        </div>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'CANCEL' | translate }}</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="sendMail()">{{ 'GROUP_MAIL_SEND' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</small>
+</div>
+
+<style>
+  body {
+    padding-right: 0px !important
+  }
+
+  .modal-open {
+    overflow-y: auto;
+  }
+</style>

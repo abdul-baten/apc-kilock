@@ -1,0 +1,256 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container">
+  <small>
+    <h2>{{ 'REST_TIME_REGISTER' | translate }}</h2>
+    <table class="table table-bordered table-sp" style="border-style:none;">
+      <thead>
+        <tr>
+          <th class="borderless"></th>
+          <th style="border-top: 1px solid #ddd;">{{ 'REST_TERM' | translate }}</th>
+          <th style="border-top: 1px solid #ddd;">{{ 'REST_TIME' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="restTime in restTimes" ng-form="templateForm" ng-class="{'warning': template.modified }">
+          <td class="borderless col-lg-1 col-md-1 col-sm-1 col-xs-1" style="text-align:right;">
+            <button type="button" class="btn btn-default btn-xs" ng-click="buttonRestTimeConfigDeleteClick(restTime)">
+              <span class="glyphicon glyphicon-trash"></span>
+            </button>
+          </td>
+          <td class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+            <div class="form-horizontal">
+              <div class="form-group form-inline reset-margin-lr reset-margin-tb">
+                <input type="text"
+                       class="form-control input-sm input-sp col-lg-5 col-md-5 col-sm-5 col-xs-5"
+                       style="text-align:right;"
+                       size="5"
+                       length="1"
+                       ng-model="restTime.period.start"
+                       name="period.start"
+                       bs-datepicker
+                       data-time-format="yyyy/MM/dd"
+                       data-length="1"
+                       data-autoclose="true"
+                       data-arrow-behavior="picker" />
+                <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2 reset-margin-lr reset-margin-tb">&#xFF5E;</div>
+                <input type="text"
+                       class="form-control input-sm input-sp col-lg-5 col-md-5 col-sm-5 col-xs-5"
+                       style="text-align:right;"
+                       size="5"
+                       length="1"
+                       ng-model="restTime.period.end"
+                       name="period.end"
+                       bs-datepicker
+                       data-time-format="yyyy/MM/dd"
+                       data-length="1"
+                       data-autoclose="true"
+                       data-arrow-behavior="picker" />
+              </div>
+            </div>
+            <div class="text-danger form-group reset-margin-lr">{{restTime.errorMessage}}</div>
+          </td>
+          <td class="col-lg-6 col-md-6 col-sm-6 col-xs-5">
+            <div class="form-horizontal">
+              <div ng-repeat="time in restTime.times" ng-form="resttimeForm" class="form-group form-inline reset-margin-lr" style="margin-bottom: 5px;">
+                <input type="text"
+                       class="form-control input-sm input-sp col-lg-5 col-md-5 col-sm-5 col-xs-5"
+                       style="max-width:35px;text-align:right;"
+                       size="5"
+                       length="1"
+                       ng-model="time.start"
+                       ng-class="restTimeTimePickerErrorClass(resttimeForm, time)"
+                       name="time.start"
+                       bs-timepicker
+                       data-time-format="HH:mm"
+                       data-length="1"
+                       data-minute-step="15"
+                       data-use-native=""
+                       data-arrow-behavior="picker"
+                       ng-change="restTimePickerChange($event, resttimeForm, restTime, time, 'from')" />
+                <div class="form-group col-lg-1 col-md-1 col-sm-1 col-xs-1 reset-margin-lr reset-margin-tb" style="padding-top:4px;padding-left:7px;">&#xFF5E;</div>
+                <input type="text"
+                       class="form-control input-sm input-sp col-lg-5 col-md-5 col-sm-5 col-xs-5"
+                       style="max-width:35px;text-align:right;"
+                       size="5"
+                       length="1"
+                       ng-model="time.end"
+                       ng-class="restTimeTimePickerErrorClass(resttimeForm, time)"
+                       name="time.end"
+                       bs-timepicker
+                       data-time-format="HH:mm"
+                       data-length="1"
+                       data-minute-step="15"
+                       data-use-native=""
+                       data-arrow-behavior="picker"
+                       ng-change="restTimePickerChange($event, resttimeForm, restTime, time, 'to')" />
+                <div class="form-group col-lg-1 col-md-1 col-sm-1 col-xs-1 reset-margin-lr reset-margin-tb" style="padding-top:2px;padding-left:5px;">
+                  <button type="button" class="btn btn-default btn-xs" ng-click="buttonRestTimeRemoveClick(restTime, $index)">
+                    <span class="glyphicon glyphicon-minus"></span>
+                  </button>
+                </div>
+              </div>
+              <div class="form-group reset-margin-lr">
+                <button type="button" class="btn btn-default btn-xs" ng-click="buttonRestTimeAddClick(restTime)">
+                  <span class="glyphicon glyphicon-plus"></span>
+                </button>
+              </div>
+              <div class="text-danger form-group reset-margin-lr reset-margin-tb">{{restTime.restTimeErrorMessage}}</div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="form-inline">
+      <div class="form-group col-xs-1 reset-margin-lr reset-padding-lr">
+        <button type="button" class="btn btn-default btn-xs" ng-click="buttonAddRestTimeClick()">
+          <span class="glyphicon glyphicon-plus"></span>
+        </button>
+      </div>
+      <div class="form-group col-xs-6 reset-margin-lr reset-padding-lr">
+        <div class="text-danger" ng-show="errors.length > 0" ng-repeat="error in errors">{{error}}</div>
+        <div class="text-success" ng-show="errors.length <= 0" ng-repeat="message in messages">{{message}}</div>
+      </div>
+      <div class="form-group col-xs-5 reset-margin-lr reset-padding-lr" style="text-align:right;">
+        <button type="button" class="btn btn-default btn-xs" data-dismiss="modal"
+                ng-click="buttonReturnClick()">{{ 'RETURN' | translate }}</button>
+        <button type="button" class="btn btn-default btn-xs" data-dismiss="modal"
+                ng-click="buttonClearConfigClick()">{{ 'CLEAR' | translate }}</button>
+        <button type="button" class="btn btn-primary btn-xs" id="timecardSendButton" ng-disabled="requesting"
+                ng-click="buttonSendConfigClick()">{{ 'REGISTER' | translate }}</button>
+      </div>
+    </div>
+  </small>
+</div>
+
+<div class="modal fade" id="restTimeModalInput" tabindex="-1" role="dialog" aria-labelledby="restTimeModalLabel" aria-hidden="true">
+  <small>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="buttonCancelTimecardClick()">
+          <span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span>
+        </button>
+        <h4 class="modal-title" id="restTimeModalLabel">{{ 'REST_TIME_ADD' | translate }}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="control-label" for="selectRestTimeTemplate">{{ 'REST_TEMPLATE' | translate }}</label>
+          <select class="form-control input-sm input-sp" id="selectRestTimeTemplate" name="restTimeTemplate"
+                  ng-change="changeRestTimeTemplate()"
+                  ng-model="selectRestTimeTemplate"
+                  ng-options="restTimeTemplate as restTimeTemplate.name for restTimeTemplate in restTimeTemplates">
+          </select>
+        </div>
+        <table class="table table-bordered table-sp">
+          <thead>
+          <tr>
+            <th>{{ 'REST_TERM' | translate }}</th>
+            <th>{{ 'REST_TIME' | translate }}</th>
+          </tr>
+        </thead>
+          <tbody>
+            <tr ng-form="addRestTimeConfigForm">
+              <td class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="form-horizontal">
+                  <div class="form-group form-inline reset-margin-lr reset-margin-tb">
+                    <input type="text"
+                           class="form-control input-sm input-sp col-lg-5 col-md-5 col-sm-5 col-xs-5"
+                           style="min-width: 100px; text-align:right;"
+                           size="5"
+                           length="1"
+                           ng-model="addRestTime.period.start"
+                           name="period.start"
+                           bs-datepicker
+                           data-time-format="yyyy/MM/dd"
+                           data-length="1"
+                           data-autoclose="true"
+                           data-arrow-behavior="picker" />
+                    <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-2 reset-margin-lr reset-margin-tb" style="padding-top:4px;padding-left:7px;">&#xFF5E;</div>
+                    <input type="text"
+                           class="form-control input-sm input-sp col-lg-5 col-md-5 col-sm-5 col-xs-5"
+                           style="min-width: 100px; text-align:right;"
+                           size="5"
+                           length="1"
+                           ng-model="addRestTime.period.end"
+                           name="period.end"
+                           bs-datepicker
+                           data-time-format="yyyy/MM/dd"
+                           data-length="1"
+                           data-autoclose="true"
+                           data-arrow-behavior="picker" />
+                  </div>
+                  <div class="text-danger form-group reset-margin-lr">{{addRestTime.errorMessage}}</div>
+                </div>
+              </td>
+              <td class="col-md-6 col-sm-6 col-xs-6">
+                <div class="form-horizontal">
+                  <div ng-repeat="time in addRestTime.times" ng-form="resttimeForm" class="form-group form-inline reset-margin-lr reset-margin-tb">
+                    <input type="text"
+                           class="form-control input-sm input-sp col-lg-5 col-md-5 col-sm-5 col-xs-5"
+                           style="max-width:35px;text-align:right;"
+                           size="5"
+                           length="1"
+                           ng-model="time.start"
+                           ng-class="restTimeTimePickerErrorClass(resttimeForm, time)"
+                           name="start"
+                           bs-timepicker
+                           data-time-format="HH:mm"
+                           data-length="1"
+                           data-minute-step="15"
+                           data-use-native=""
+                           data-arrow-behavior="picker"
+                           ng-change="restTimePickerChange($event, resttimeForm, restTimeTemplate, time, 'from')" />
+                    <div class="form-group col-lg-1 col-md-1 col-sm-1 col-xs-1 reset-margin-lr reset-margin-tb" style="padding-top:4px;padding-left:7px;">&#xFF5E;</div>
+                    <input type="text"
+                           class="form-control input-sm input-sp col-lg-5 col-md-5 col-sm-5 col-xs-5"
+                           style="max-width:35px;text-align:right;"
+                           size="5"
+                           length="1"
+                           ng-model="time.end"
+                           ng-class="restTimeTimePickerErrorClass(resttimeForm, time)"
+                           name="end"
+                           bs-timepicker
+                           data-time-format="HH:mm"
+                           data-length="1"
+                           data-minute-step="15"
+                           data-use-native=""
+                           data-arrow-behavior="picker"
+                           ng-change="restTimePickerChange($event, resttimeForm, restTimeTemplate, time, 'to')" />
+                    <div class="form-group col-lg-1 col-md-1 col-sm-1 col-xs-1 reset-margin-lr reset-margin-tb">
+                      <button type="button" class="btn btn-default btn-xs" id="resttime-remove-button" ng-click="buttonRestTimeRemoveClick(addRestTime, $index)">
+                        <span class="glyphicon glyphicon-minus"></span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="form-group reset-margin-lr">
+                    <button type="button" class="btn btn-default btn-xs" id="resttime-add-button" ng-click="buttonRestTimeAddClick(addRestTime)">
+                      <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                  </div>
+                </div>
+                <div class="text-danger form-group reset-margin-lr">{{addRestTime.restTimeErrorMessage}}</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-xs" data-dismiss="modal"
+                ng-click="buttonCancelTimecardClick()">{{ 'CANCEL' | translate }}</button>
+        <button type="button" class="btn btn-primary btn-xs" id="timecardSendButton"
+                ng-click="buttonAddRestTimeConfigClick()">{{ 'ADD' | translate }}</button>
+      </div>
+    </div>
+  </div>
+  </small>
+</div>
+
+<style>
+  body {
+    padding-right: 0px !important
+  }
+
+  .modal-open {
+    overflow-y: auto;
+  }
+</style>

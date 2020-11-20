@@ -1,0 +1,126 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+<small>
+  <div class="form-horizontal">
+    <div class="form-group">
+      <label for="searchName" class="control-label col-xs-5">{{ 'TARGET' | translate }}</label>
+      <div class="col-xs-7">
+        <input type="text" class="form-control input-sm input-sp" ng-model="searchTargetUserName" ng-change="search()" maxlength="50" placeholder="{{ searchTextPlaceholder }}" id="searchName">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="searchTargetUserProject" class="control-label col-xs-5">{{ 'TARGET' | translate }}{{ 'PROJECT' | translate }}</label>
+      <div class="dropdown col-xs-7">
+        <select id="searchTargetUserProject"
+                ng-change="search()"
+                class="form-control input-sm input-sp"
+                ng-model="searchTargetUserProject"
+                ng-options="project._id as project.name for project in targetUserProjects">
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="searchName" class="control-label col-xs-5">{{ 'UPDATER' | translate }}</label>
+      <div class="col-xs-7">
+        <input type="text" class="form-control input-sm input-sp" ng-model="searchUpdateUserName" ng-change="search()" maxlength="50" placeholder="{{ searchTextPlaceholder }}" id="searchName">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="searchUpdateUserProject" class="control-label col-xs-5">{{ 'UPDATER' | translate }}{{ 'PROJECT' | translate }}</label>
+      <div class="dropdown col-xs-7">
+        <select id="searchUpdateUserProject"
+                ng-change="search()"
+                class="form-control input-sm input-sp"
+                ng-model="searchUpdateUserProject"
+                ng-options="project._id as project.name for project in updateUserProjects">
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="searchYearMonth" class="control-label col-xs-5">
+        {{ 'UPDATED_DATE' | translate }}
+        <button type="button" class="btn btn-default btn-xs" ng-click="buttonClearUpdateDate()">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+      </label>
+      <div class="form-inline col-xs-7">
+        <input type="text"
+               class="form-control input-sm input-sp col-xs-7 reset-margin-lr"
+               style="max-width:75px;text-align:right;"
+               ng-change="search()"
+               ng-model="searchStartDate"
+               name="searchStartDate"
+               bs-datepicker
+               data-placement="bottom"
+               data-time-format="yyyy/MM/dd"
+               data-length="1"
+               data-autoclose="true"
+               data-arrow-behavior="picker" />
+        <div class="col-xs-2 reset-margin-lr" style="padding-top:4px;padding-left:10px;">&#xFF5E;</div>
+        <input type="text"
+               class="form-control input-sm input-sp col-xs-7 reset-margin-lr"
+               style="max-width:75px;text-align:right;"
+               ng-change="search()"
+               ng-model="searchEndDate"
+               name="searchEndDate"
+               bs-datepicker
+               data-placement="bottom-right"
+               data-time-format="yyyy/MM/dd"
+               data-length="1"
+               data-autoclose="true"
+               data-arrow-behavior="picker" />
+      </div>
+    </div>
+  </div>
+  <table class="table table-sp">
+    <thead>
+      <tr>
+        <th>
+          <div>{{ 'NAME' | translate }}</div>
+          <div>{{ 'YEAR_MONTH' | translate }}</div>
+        </th>
+        <th>
+          <div>{{ 'ATTENDANCE_ACTION' | translate }}</div>
+          <div>{{ 'UPDATER' | translate }}</div>
+        </th>
+        <th>{{ 'UPDATED_DATE'| translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in list">
+        <td style="min-width: 75px;">
+          <div>{{ item.targetUser.employeeCode }} {{ item.targetUser.name }}</div>
+          <div>{{ item.year }}年{{ item.month }}月</div>
+        </td>
+        <td>
+          <div>{{ displayAttendanceAction(item.attendanceAction) }}</div>
+          <div>{{ item.updateUser.employeeCode }} {{ item.updateUser.name }}</div>
+        </td>
+        <td>{{ item.updated | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div ng-if="maxPageNum > 0" class="text-center">
+    <ul class="pagination">
+      <li ng-if="!existPrevPage()" class="disabled"><a>&laquo;</a></li>
+      <li ng-if="existPrevPage()"><a ng-click="prevPage()">&laquo;</a></li>
+      <li ng-repeat="n in pagingNumList" ng-class="{active: n == nowPageNum}">
+        <a ng-click="movePage(n)">{{n}}</a>
+      </li>
+      <li ng-if="!existNextPage()" class="disabled"><a>&raquo;</a></li>
+      <li ng-if="existNextPage()" ><a ng-click="nextPage()">&raquo;</a></li>
+    </ul>
+  </div>
+</small>
+</div>
+
+<style>
+  body {
+    padding-right: 0px !important
+  }
+
+  .modal-open {
+    overflow-y: auto;
+  }
+</style>

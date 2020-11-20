@@ -1,0 +1,50 @@
+<div class="navbar navbar-default navbar-static-top" ng-controller="NavbarCtrl">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" ng-click="isCollapsed = !isCollapsed">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand"><img ng-src="logo_100.png" /></a>
+    </div>
+    <div collapse="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
+      <ul class="nav navbar-nav">
+        <li ng-repeat="item in menu" ng-class="{active: isActive(item.link), dropdown: item.groupTitle != null}">
+          <a ng-if="item.groupTitle == null" ng-href="{{item.link}}">{{item.title}}</a>
+          <a ng-if="item.groupTitle != null" ng-href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+            aria-haspopup="true" aria-expanded="false">{{item.groupTitle}}<span class="caret"></span></a>
+          <ul ng-if="item.groupTitle != null" class="dropdown-menu">
+            <li ng-repeat="detail in item.details" ng-class="{active: isActive(detail.link)}">
+              <a ng-href="{{detail.link}}">{{detail.title}}</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="{{loginuser.link}}">{{loginuser.title}}</a></li>
+        <li><a href="/auth/signout" ng-click="signout()">{{ 'SIGN_OUT' | translate}}</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="sessionTimeoutWarning" tabindex="-1" role="dialog" aria-labelledby="sessionTimeoutWarning"
+  aria-hidden="true" style="display: none; z-index: 99999">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Warning</h4>
+      </div>
+      <div class="modal-body">
+        <h4>{{ "SESSION_TIMEOUT_MESSAGE" | translate }}</h4>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary" href="/auth/signout" ng-click="signout()">{{ 'LOGIN_AGAIN' |
+          translate }}</a>
+      </div>
+    </div>
+  </div>
+</div>

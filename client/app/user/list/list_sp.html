@@ -1,0 +1,101 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+<small>
+  <a class="btn btn-primary btn-xs" ng-href="/user/register" ng-show="showNewRegister()">{{ 'NEW_REGISTER' | translate }}</a>
+
+  <div class="form-horizontal">
+    <div class="form-group">
+      <label for="search" class="col-md-2 control-label">{{ 'SEARCH' | translate }}</label>
+      <div class="col-md-8">
+        <!-- input type="text"class="form-control" ng-model="searchText" ng-change="search()" maxlength="50" placeholder="LoginId, Name で検索" id="search" -->
+        <input type="text"class="form-control input-sm input-sp" ng-model="searchText" ng-change="search()" maxlength="50" placeholder="{{ searchTextPlaceholder }}" id="search">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="search" class="col-md-2 control-label">{{ 'OWN_GROUP' | translate }}</label>
+      <div class="dropdown col-md-8">
+        <select ng-change="search()" class="form-control input-sm input-sp" ng-model="groupId" ng-options="g.id as g.name for g in groups"></select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="del_user" class="col-md-2 control-label">{{ 'USER_STATUS' | translate }}</label>
+      <div class="col-md-8 btn-group">
+        <label>
+          <input type="radio" value="enabled" name="del_user" ng-model="userEnabled" ng-change="search()">{{ 'VALID' | translate }}
+        </label>
+        <label>
+          <input type="radio" value="disabled" name="del_user" ng-model="userEnabled" ng-change="search()">{{ 'INVALID' | translate }}
+        </label>
+        <label>
+          <input type="radio" value="all" name="del_user" ng-model="userEnabled" ng-change="search()">{{ 'ALL' | translate }}
+        </label>
+      </div>
+    </div>
+  </div>
+  <table class="table table-sp">
+    <thead>
+      <tr>
+        <th rowspan="2"> </th>
+        <th>{{ 'LOGIN_ID' | translate }}</th>
+        <th>
+          <a ng-click="toggleSort('employeeCode')">
+            <span ng-class="{'glyphicon': true, 'glyphicon-triangle-top': isAsc('employeeCode'), 'glyphicon-triangle-bottom': isDesc('employeeCode')}" ng-click="toggleSort('employeeCode')"></span>
+            {{ 'EMPLOYEE_CODE' | translate }}
+          </a>
+          {{ 'NAME' | translate }}
+        </th>
+        <th>{{ 'EXTENTION_NUMBER' | translate }}</th>
+        <th>{{ 'NFC' | translate }}</th>
+        <th>{{ 'DEVICE' | translate }}</th>
+        <th>{{ 'INFORMATION_SOURCE' | translate }}</th>
+      </tr>
+      <tr>
+        <th colspan="6" style="border-top-style:none;"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat-start="user in users">
+        <td rowspan="2"><span class="octicon" ng-class="iconEnabled(user)"></span></td>
+        <td>{{user.login}}</td>
+        <td>
+          <div>{{user.employeeCode}}</div>
+          <div>{{user.name}}</div>
+        </td>
+        <td>{{user.extensionPhoneNumber}}</td>
+        <td><span class="octicon" ng-class="iconCheckNfc(user)"></span></td>
+        <td><span class="octicon" ng-class="iconCheckDevice(user)"></span></td>
+        <td>{{user.sourceName}}</td>
+      </tr>
+      <tr ng-repeat-end>
+        <td colspan="6" style="border-top-style:none;">
+          <a class="btn btn-primary btn-xs" ng-href="/user/{{user.id}}" ng-show="showEdit(user)">{{ 'EDIT' | translate }}</a>
+          <a class="btn btn-primary btn-xs" ng-href="/user/{{user.id}}/passhistories" ng-show="showPassHistories(user)">{{ 'PASSAGE_HISTORY' | translate }}</a>
+          <a class="btn btn-primary btn-xs" ng-href="/user/{{user.id}}/attendance" ng-show="showAttendance(user)">{{ 'ATTENDANCE' | translate }}</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div ng-if="maxPageNum > 0" class="text-center">
+    <ul class="pagination">
+      <li ng-if="!existPrevPage()" class="disabled"><a>&laquo;</a></li>
+      <li ng-if="existPrevPage()"><a ng-click="prevPage()">&laquo;</a></li>
+      <li ng-repeat="n in pagingNumList" ng-class="{active: n == nowPageNum}">
+        <a ng-click="movePage(n)">{{n}}</a>
+      </li>
+      <li ng-if="!existNextPage()" class="disabled"><a>&raquo;</a></li>
+      <li ng-if="existNextPage()" ><a ng-click="nextPage()">&raquo;</a></li>
+    </ul>
+  </div>
+</small>
+</div>
+
+<style>
+  body {
+    padding-right: 0px !important
+  }
+
+  .modal-open {
+    overflow-y: auto;
+  }
+</style>

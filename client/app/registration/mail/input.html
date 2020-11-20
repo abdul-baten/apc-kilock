@@ -1,0 +1,17 @@
+<div class="container">
+  <h2>メールアドレス登録画面</h2>
+  <hr>
+  <form role="form">
+    <p>メールアドレスを入力してください。</p>
+    <div class="form-group">
+      <label class="control-label">{{ 'EMAIL_ADDRESS' | translate }}</label>
+      <input type="text" ng-model="mail" class="form-control">
+    </div>
+    <button type="button" class="btn btn-primary" ng-click="submit()">{{ 'SUBMIT' | translate }}</button>
+    <div>
+      <p class="bg-success">{{infoMessage}}</p>
+      <p class="bg-danger">{{errorMessage}}</p>
+    </div>
+  </form>
+
+</div>

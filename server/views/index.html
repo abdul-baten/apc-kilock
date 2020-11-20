@@ -1,0 +1,113 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html ng-app="serverAttendApiApp" lang="ja" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html ng-app="serverAttendApiApp" lang="ja" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html ng-app="serverAttendApiApp" lang="ja" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html ng-app="serverAttendApiApp" lang="ja" class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <base href="/">
+    <title><%= __('APP_NAME') %> <%= __('VERSION_STRING') %> - <%= __('Attendance Management System') %></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, user-scalable=0">
+    <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(client) app/vendor.css -->
+      <!-- bower:css -->
+      <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.css" />
+      <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
+      <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css({.tmp,client}) app/app.css -->
+    <link rel="stylesheet" href="app/app.css">
+      <!-- injector:css -->
+      <!-- endinjector -->
+    <!-- endbuild -->
+    <link rel="stylesheet" href="bower_components/octicons/octicons/octicons.css">
+  </head>
+  <body>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div ng-view=""></div>
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <!-- build:js(client) app/vendor.js -->
+      <!-- bower:js -->
+      <script src="bower_components/jquery/dist/jquery.js"></script>
+      <script src="bower_components/angular/angular.js"></script>
+      <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+      <script src="bower_components/angular-resource/angular-resource.js"></script>
+      <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+      <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+      <script src="bower_components/angular-route/angular-route.js"></script>
+      <script src="bower_components/angular-animate/angular-animate.js"></script>
+      <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+      <script src="bower_components/lodash/lodash.js"></script>
+      <script src="bower_components/FileSaver/dist/FileSaver.min.js"></script>
+      <script src="bower_components/angular-strap/dist/angular-strap.js"></script>
+      <script src="bower_components/angular-strap/dist/angular-strap.tpl.js"></script>
+      <script src="bower_components/angular-translate/angular-translate.js"></script>
+      <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+      <script src="bower_components/qrcode-generator/js/qrcode.js"></script>
+      <script src="bower_components/angular-qrcode/qrcode.js"></script>
+      <script src="bower_components/angular-i18n/angular-locale_ja-jp.js"></script>
+      <script src="bower_components/moment/moment.js"></script>
+      <script src="bower_components/angular-moment/angular-moment.js"></script>
+      <script src="bower_components/jspdf/dist/jspdf.debug.js"></script>
+      <script src="bower_components/html2canvas/build/html2canvas.js"></script>
+      <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
+      <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap.js"></script>
+      <!-- endbower -->
+      <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+    <!-- endbuild -->
+
+        <!-- build:js({.tmp,client}) app/app.js -->
+        <script src="app/app.js"></script>
+          <!-- injector:js -->
+          <script src="app/account/index.js"></script>
+          <script src="app/account/signin/signin.controller.js"></script>
+          <script src="app/account/signout/signout.controller.js"></script>
+          <script src="app/account/signup/signup.controller.js"></script>
+          <script src="app/admin/door/door.js"></script>
+          <script src="app/admin/door/list/doors.controller.js"></script>
+          <script src="app/approve/approve.js"></script>
+          <script src="app/approve/overtime/overtime.controller.js"></script>
+          <script src="app/attendance-difference-log/attendance-difference-log.controller.js"></script>
+          <script src="app/attendance-difference-log/attendance-difference-log.js"></script>
+          <script src="app/attendance-status/attendance-status.js"></script>
+          <script src="app/attendance-status/list/list.controller.js"></script>
+          <script src="app/attendance-status/log/log.controller.js"></script>
+          <script src="app/attendance/attendance.controller.js"></script>
+          <script src="app/attendance/attendance.js"></script>
+          <script src="app/mail-template-editor/mail-template-editor.controller.js"></script>
+          <script src="app/mail-template-editor/mail-template-editor.js"></script>
+          <script src="app/mail/send/input/input.controller.js"></script>
+          <script src="app/mail/send/send.js"></script>
+          <script src="app/passhistories/passhistories.controller.js"></script>
+          <script src="app/passhistories/passhistories.js"></script>
+          <script src="app/registration/mail/input.controller.js"></script>
+          <script src="app/registration/registration.js"></script>
+          <script src="app/resttime-template/resttime-template.controller.js"></script>
+          <script src="app/resttime-template/resttime-template.js"></script>
+          <script src="app/resttime/resttime.controller.js"></script>
+          <script src="app/resttime/resttime.js"></script>
+          <script src="app/user/device/device.controller.js"></script>
+          <script src="app/user/list/list.controller.js"></script>
+          <script src="app/user/maillist/maillist.controller.js"></script>
+          <script src="app/user/register/register.controller.js"></script>
+          <script src="app/user/user.js"></script>
+          <script src="components/koyomi/koyomi.min.js"></script>
+          <script src="components/navbar/navbar.controller.js"></script>
+          <script src="components/navbar/staticNavbar.controller.js"></script>
+          <!-- endinjector -->
+        <!-- endbuild -->
+</body>
+</html>

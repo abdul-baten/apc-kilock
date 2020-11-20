@@ -1,0 +1,49 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+<small>
+  <table class="table table-sp">
+    <thead>
+      <tr>
+        <th rowspan="2">{{ 'USER' | translate }}</th>
+        <th colspan="2">{{ 'TIME' | translate }}</th>
+        <th>{{ 'DEVICE' | translate }}</th>
+        <th>{{ 'DOOR' | translate }}</th>
+        <th>{{ 'RESULT' | translate }}</th>
+      </tr>
+      <tr>
+        <th>{{ 'ENTER' | translate }}/{{'LEAVE' | translate }}</th>
+        <th>{{ 'ACTION' | translate }}</th>
+        <th colspan="3">{{ 'MESSAGE' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat-start="passHistory in passHistories">
+        <td rowspan="2">
+          <div>{{passHistory.employeeCode}}</div>
+          <div>{{passHistory.userName}}</div>
+        </td>
+        <td colspan="2">{{passHistory.timestamp | date: 'yyyy-MM-dd HH:mm:ss.sss Z'}}</td>
+        <td>{{passHistory.typeName}}</td>
+        <td>{{passHistory.doorName}}</td>
+        <td>{{passHistory.resultName}}</td>
+      </tr>
+      <tr ng-repeat-end>
+        <td>{{passHistory.openEventName}}</td>
+        <td>{{passHistory.deviceName}}</td>
+        <td colspan="3">{{passHistory.message}}</td>
+      </tr>
+    </tbody>
+  </table>
+</small>
+</div>
+
+<style>
+  body {
+    padding-right: 0px !important
+  }
+
+  .modal-open {
+    overflow-y: auto;
+  }
+</style>

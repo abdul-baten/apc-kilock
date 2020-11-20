@@ -1,0 +1,105 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+<small>
+  <form role="form">
+    <div class="form-group">
+      <label class="control-label">Name</label>
+      <div>
+        <p class="form-control-static">{{user.name}}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label">Devices</label>
+      <div>
+        <p class="form-control-static" ng-model="user.hasDevice">{{deviceStatusMessage}}</p>
+      </div>
+    </div>
+
+    <table class="table table-bordered" ng-show="user.hasDevice">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Device</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="device in user.devices" ng-form="deviceForm">
+          <td class="col-md-1">
+            <button type="button" class="btn btn-default"
+                    ng-click="buttonDeleteDeviceClick(device)">
+              <span class="glyphicon glyphicon-trash"></span>
+            </button>
+          </td>
+          <td>{{device.name}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="form-group" ng-show="isShowCode()">
+      <label class="control-label">Code</label>
+      <div>
+        <h3 class="bg-success">{{onetimetoken}}</h3>
+        <p>{{ "Enter code to your device." | translate }}</p>
+      </div>
+    </div>
+    <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-sm"
+            ng-disabled="shouldDisableOnetimeToken">{{ 'Issue code' | translate }}</button>
+    <div>
+      <p class="bg-success">{{infoMessage}}</p>
+      <p class="bg-danger">{{errorMessage}}</p>
+    </div>
+  </form>
+
+  <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{ 'Issue code' | translate }}</h4>
+        </div>
+        <div class="modal-body">
+          <p>{{ 'Do you want to get a registration code?' | translate }}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'CANCEL' | translate }}</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="post()">{{ 'ISSUE' | translate }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</small>
+</div>
+
+<div class="modal fade" id="modalAlert" tabindex="-1" role="dialog" aria-labelledby="modalAlert" aria-hidden="true">
+<small>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="buttonCancelAlertClick()">
+          <span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span>
+        </button>
+        <h4 class="modal-title" id="modalAlertTitle">{{modalAlertTitle}}</h4>
+      </div>
+      <div class="modal-body">
+        <label for="message-text" class="control-label">{{modalAlertMessage}}</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"
+                ng-click="buttonCancelAlertClick()">Cancel</button>
+        <button type="button" class="btn btn-primary" id="modalAlertOtherButton"
+                ng-click="buttonOtherAlertClick()">{{modalAlertOtherButtonTitle}}</buton>
+      </div>
+    </div>
+  </div>
+</small>
+</div>
+
+<style>
+  body {
+    padding-right: 0px !important
+  }
+
+  .modal-open {
+    overflow-y: auto;
+  }
+</style>

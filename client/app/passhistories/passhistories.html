@@ -1,0 +1,35 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{{ 'USER' | translate }}</th>
+        <th>{{ 'TIME' | translate }}</th>
+        <th>{{ 'ENTER' | translate }}/{{'LEAVE' | translate }}</th>
+        <th>{{ 'ACTION' | translate }}</th>
+        <th>{{ 'DEVICE' | translate }}</th>
+        <th>{{ 'DOOR' | translate }}</th>
+        <th>{{ 'RESULT' | translate }}</th>
+        <th>{{ 'MESSAGE' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="passHistory in passHistories">
+        <td>
+          <div>{{passHistory.employeeCode}}</div>
+          <div>{{passHistory.userName}}</div>
+        </td>
+        <td>{{passHistory.timestamp | date: 'yyyy-MM-dd HH:mm:ss.sss Z'}}</td>
+        <td>{{passHistory.typeName}}</td>
+        <td>{{passHistory.openEventName}}</td>
+        <td>{{passHistory.deviceName}}</td>
+        <td>{{passHistory.doorName}}</td>
+        <td>{{passHistory.resultName}}</td>
+        <td>{{passHistory.message}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

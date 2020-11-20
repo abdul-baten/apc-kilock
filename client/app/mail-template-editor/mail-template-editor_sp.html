@@ -1,0 +1,47 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container">
+<small>
+  <h2>{{ 'Mail Template Editor' | translate }}</h2>
+
+  <ul class="nav nav-tabs" role="tablist" ng-show="passTypeInfos">
+    <li ng-repeat="passTypeInfo in passTypeInfos" ng-class="currentLinkClass(passTypeInfo)">
+      <a ng-click="passTypeTabClickHandler(passTypeInfo)">{{ 'PASS_TYPE_TAB_TITLE' | translate:passTypeInfo }}</a>
+    </li>
+  </ul>
+
+  <form name="formTemplate" ng-show="editingTemplate">
+    <p>{{ 'MAIL_SUBJECT' | translate}}:
+      <input type="text" name="subject" ng-model="editingTemplate.subject" ng-minlength="1" ng-maxlength="30" required=""></text>
+      <span class="error" ng-show="formTemplate.subject.$error.minlength">{{ 'too short!' | translate }}</span>
+      <span class="error" ng-show="formTemplate.subject.$error.maxlength">{{ 'too long!' | translate }}</span>
+      <span class="error" ng-show="formTemplate.subject.$error.required">{{ 'too short!' | translate}}</span>
+    </p>
+    <p>{{ 'MAIL_BODY' | translate }}</p>
+    <p>
+      <textarea id="textarea" name="text" ng-model="editingTemplate.text" ng-maxlength="{{ maxTextLength }}" ng-trim="false" cols="40" rows="10" required=""></textarea>
+    </p>
+    <!--
+    <p><span class="error" ng-show="formTemplate.text.$error.maxlength">{{ maxTextLength }} Characters</span></p>
+    <p><span class="error" ng-show="formTemplate.text.$error.required">required</span></p>
+    -->
+    <p>{{ 'Number of characters left' | translate }}: {{ numCharsLeft }}</p>
+    <p>
+      <button id="saveButton" ng-click="save()"
+              ng-disabled="!editingTemplate.text || formTemplate.text.$error.length > 0 || !editingTemplate.subject || (template.subject.$error.length > 0)"
+              >{{ 'SAVE' | translate }}
+      </button>
+      <button id="clearButton" ng-click="clear()">{{ 'CLEAR' | translate }}</button>
+    </p>
+  </form>
+</small>
+</div>
+
+<style>
+  body {
+    padding-right: 0px !important
+  }
+
+  .modal-open {
+    overflow-y: auto;
+  }
+</style>

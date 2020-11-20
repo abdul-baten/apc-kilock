@@ -1,0 +1,158 @@
+$icon-font-path: "../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
+$fa-font-path: "../bower_components/font-awesome/fonts";
+
+@import '../bower_components/bootstrap-sass/assets/stylesheets/bootstrap';
+@import '../bower_components/font-awesome/scss/fontawesome';
+// @import '../../node_modules/bootstrap/scss/bootstrap';
+
+/**
+ * App-wide Styles
+ */
+
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+.reset-padding-lr {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.reset-margin-lr {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+.reset-margin-tb {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+table.table-sp {
+  thead {
+    th {
+      font-size: 80%;
+      padding: 2px;
+      border-bottom-width: 1px;
+    }
+  }
+
+  tbody {
+    td {
+      font-size: 80%;
+      padding: 2px;
+    }
+  }
+
+  select {
+    font-size: 80%;
+    padding: 0px 4px;
+    height: 24px;
+  }
+
+  input[type="text"] {
+    font-size: 80%;
+    padding: 0px 4px;
+    height: 24px;
+  }
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    margin-top: 0px;
+  }
+
+  button {
+    font-size: 80%;
+  }
+
+  margin-bottom: 5px;
+}
+
+.input-sp {
+  font-size: 80% !important;
+  padding: 0px 4px !important;
+  height: 24px !important;
+  background-color: white !important;
+}
+
+.borderless {
+  border-style: none !important;
+  border-width: 0px !important;
+  box-shadow: none !important;
+}
+
+table {
+  th {
+    text-align: center;
+  }
+}
+
+small {
+  h2 {
+    font-size: 24px;
+    margin-top: 10px;
+  }
+}
+
+.mt-2,
+.my-2 {
+  margin-top: 10px;
+}
+
+.mb-2,
+.my-2 {
+  margin-bottom: 10px;
+}
+
+.pt-2,
+.py-2 {
+  padding-top: 10px;
+}
+
+.pb-2,
+.py-2 {
+  padding-bottom: 10px;
+}
+
+.mt-3,
+.my-3 {
+  margin-top: 20px;
+}
+
+.mb-3,
+.my-3 {
+  margin-bottom: 20px;
+}
+
+.pt-3,
+.py-3 {
+  padding-top: 20px;
+}
+
+.pb-3,
+.py-3 {
+  padding-bottom: 20px;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #ddd;
+}
+
+// Component styles are injected through grunt
+// injector
+@import 'account/signin/signin.scss';
+@import 'attendance/attendance.scss';
+@import 'resttime-template/resttime-template.scss';
+@import 'resttime/resttime.scss';
+// endinjector

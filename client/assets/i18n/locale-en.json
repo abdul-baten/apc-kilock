@@ -1,0 +1,185 @@
+{
+  "APP_NAME": "KiLock",
+  "VERSION_STRING": "Beta",
+  "Attendance Management System": "Attendance Management System",
+  "SIGN_OUT": "Sign Out",
+  "HOME": "Home",
+  "TOTAL_WORKING_HOURS": "Total Working Hours: {{sumWorkHours}} hrs",
+  "LINK_MONTH": "{{year}}/{{month}}",
+  "EDIT_TIME": "Edit",
+  "IN_TIME": "In",
+  "OUT_TIME": "Out",
+  "BREAK": "Break",
+  "DAILY_WORKING_HOURS": "Daily Working Hours",
+  "RECORDED_IN_TIME": "Recorded In",
+  "RECORDED_OUT_TIME": "Recorded Out",
+  "REASON_FOR_EDITING": "Remarks",
+  "ATTENDANCE_TYPE": "Attendance Type",
+
+  "TIME_CARD": "Time card",
+  "MINUTE": "min",
+  "TOTAL_WORKING_MINUTES": "Total Working Minutes: {{sumWorkMinutes}} min",
+  "WORKING_MINUTES": "Working Minutes",
+
+  "PASS_TYPE_TAB_TITLE": "{{name}}",
+  "Mail Template Editor": "Mail Template Editor",
+  "too short!": "too short!",
+  "too long!": "too long!",
+  "Number of characters left": "Number of characters left",
+  "MAIL_SUBJECT": "Subject",
+  "MAIL_BODY": "Body",
+
+
+  "REST_TIME_TEMPLATE_EDIT": "RestTimeTemplate Edit",
+  "REST_TIME_REGISTER": "RestTime Register",
+  "REST_TIME_ADD": "RestTime Add",
+  "REST_TERM": "Term",
+  "REST_TEMPLATE": "Template",
+  "REST_TEMPLATE_NAME": "Template Name",
+  "MSG_REST_TIME_TERM_OVER": "期間が重複しています",
+  "MSG_REST_TIME_TERM_INPUT": "開始日が入力されていません",
+  "MSG_REST_TIME_TERM_ERROR": "期間が正しくありません",
+  "MSG_REST_TIME_TIME_OVER": "休憩時間が重複しています",
+  "MSG_REST_TIME_TIME_INPUT": "休憩時間を入力してください",
+  "MSG_REST_TIME_TIME_ERROR": "休憩時間が正しくありません",
+  "MSG_REST_TIME_TEMPLATE_NAME": "テンプレート名を入力してください",
+
+  "ADD": "Add",
+  "RETURN": "Return",
+
+
+  "CANCEL": "Cancel",
+  "ISSUE": "Issue",
+
+  "Enter code to your device.": "Enter code to your device.",
+  "Issue code": "Issue code",
+  "Do you want to get a registration code?": "Do you want to get a registration code?",
+
+  "デバイス登録済み": "Registered devices",
+  "デバイス未登録": "No registered devices",
+
+  "Delete device": "Delete device",
+  "Delete mail address": "Delete mail address",
+  "Are you sure?": "Are you sure?",
+
+  "NEW_REGISTER": "register",
+  "REGISTER": "register",
+  "EDIT": "Edit",
+  "SAVE": "Save",
+  "CLEAR": "Clear",
+  "REVISE": "Revise",
+  "RECALL": "Recall",
+
+  "USER": "User",
+  "TIME": "Time",
+  "ENTER": "Enter",
+  "LEAVE": "Leave",
+  "ACTION": "Action",
+  "DEVICE": "Device",
+  "DOOR": "Door",
+  "RESULT": "Result",
+  "MESSAGE": "Message",
+
+  "LoginId, Name で検索": "Search by LoginId, Name",
+  "(すべて)": "(All)",
+
+  "SEARCH": "Search",
+  "OWN_GROUP": "Own Group",
+  "USER_STATUS": "User Status",
+  "VALID": "Valid",
+  "INVALID": "Invalid",
+  "ALL": "All",
+
+  "LOGIN_ID": "Login ID",
+  "NAME": "Name",
+  "EXTENTION_NUMBER": "Extention Number",
+  "NFC": "NFC",
+  "INFORMATION_SOURCE": "Information Source",
+  "PASSAGE_HISTORY": "Pass Histories",
+  "ATTENDANCE": "Attendance",
+
+  "登録しました": "Registered",
+  "削除しました": "Unregisterd",
+
+  "EMAIL_ADDRESS": "e-mail address",
+  "PROFILE": "Profile",
+  "IMAGE_URL": "Image URL",
+
+  "AUTHORITY": "Authority",
+  "UNLOCKING": "Unlocking",
+  "MANAGE_GROUP": "Managing groups",
+
+  "ADMINISTRATOR_ROLE": "Admin. Role",
+  "DISPLAY_ORDER": "Disp. Order",
+  "SUBMIT": "Submit",
+  "DELETE": "Delete",
+  "CONFIRMATION_OF_DELETE": "Confirmation of Delete",
+
+  "このユーザの勤怠情報なども含めて削除されます。": "All information of this user, include Attendance, will delete.",
+  "削除しますか？": "Do you delete them?",
+
+  "MONTH_END_CLOSE": "Month end close",
+  "MONTH_END_CLOSE_CONFIRM": "Do you close this month?",
+
+  "REQUEST": "Request",
+  "REQUESTER": "Requester",
+  "REQUEST_DATE": "Request Date",
+  "OVERTIME_REQUEST": "Overtime Request",
+  "OVERTIME_REQUEST_CONFIRM": "Request Confirm",
+  "OVERTIME_REQUEST_TIME": "Overtime",
+  "OVERTIME_REQUEST_DATE": "Overtime Date",
+  "OVERTIME_REQUEST_REASON": "Reason",
+  "OVERTIME_REQUEST_REASON_MESSAGE": "Please input overtime reason.",
+  "APPROVER": "Approver",
+  "APPROVE": "approve",
+  "UNAPPROVE": "unapprove",
+  "REMAND": "Remand",
+  "REMAND_REASON": "Remand Reason",
+  "OVERTIME_REQUEST_CONFIRM_BUTTON": "confirm",
+
+  "REQUEST_STATUS_REQUESTING": "requesting",
+  "REQUEST_STATUS_APPROVE": "approve",
+  "REQUEST_STATUS_UNAPPROVE": "unapprove",
+  "REQUEST_STATUS_REMAND": "remand",
+
+  "SIGNIN": "Sign In",
+  "SELECT_LOGIN_ACCOUNT": "Please select login account.",
+  "PLEASE_RETRY_SIGNIN": "Please press this button.",
+
+  "TERM_OF_SERVICE": "Term of Service",
+  "AGREE_TERM_OF_SERVICE": "I agree to the Term of Service.",
+
+  "REGISTERED_EMAIL_LIST": "Registered email addressnlist",
+
+  "REGIST_EMAIL": "Regist Email Address",
+
+  "ATTENDANCE_SHEET_TYPE1": "Attendance Sheet Type 1",
+  "ATTENDANCE_SHEET_TYPE2": "Attendance Sheet Type 2",
+
+  "LANGUAGE": "English",
+
+  "GROUP_MAIL_BROADCAST": "Mail Broadcast",
+  "GROUP_MAIL_SEND": "Send Mail",
+  "GROUP_MAIL_DESCRIPTION": "Send Mail Description",
+  "SENDING_GROUP": "Sending Group",
+  "ETC_GROUP": "Etc Group",
+  "MAIL_SEND_CONFIRM": "Confirm",
+  "MAIL_SEND_CONFIRM_DISPLAY": "Send Mail Confirm",
+  "MAIN_SEND_SUCCESS_MESSAGE": "Sending Mail Accepted.",
+  "MAIN_SEND_FAILED_MESSAGE": "Sending Mail Failed.",
+
+  "TIME_CARD_ROUND_WARNING": "Valid values are in units of 15 minutes. If other time is entered, it will be automatically corrected.",
+
+  "SESSION_TIMEOUT_MESSAGE": "The session has timed out. Please login again.",
+  "LOGIN_AGAIN": "Login again",
+
+  "USER_ID": "User ID",
+  "YEAR": "Year",
+  "MONTH": "Month",
+  "DAY": "Day",
+  "ATTENDANCE_TIME": "Attendance Time",
+  "DETAILS_TIME": "Details Time",
+  "NO_TIME_DIFFERENCE_FOUND": "No time difference found",
+  "HAPPENED_AT": "Error occured"
+
+}

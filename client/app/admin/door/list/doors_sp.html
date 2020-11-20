@@ -1,0 +1,35 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+<small>
+  <a class="btn btn-primary" ng-href="/admin/door/register" ng-show="showNewRegister()">{{ 'REGISTER' | translate }}</a>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Name</th>
+        <th>ActionType</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="door in doors">
+        <td>{{door.key}}</td>
+        <td>{{door.name}}</td>
+        <td>{{door.actionType}}</td>
+        <td><a class="btn btn-primary" ng-href="/admin/door/{{door.key}}" ng-show="showEdit(door)">{{ 'EDIT' | translate }}</a></td>
+      </tr>
+    </tbody>
+  </table>
+</small>
+</div>
+
+<style>
+  body {
+    padding-right: 0px !important
+  }
+
+  .modal-open {
+    overflow-y: auto;
+  }
+</style>

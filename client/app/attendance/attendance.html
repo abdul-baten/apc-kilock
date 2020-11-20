@@ -1,0 +1,532 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+
+  <div class="row" style="margin-bottom:10px;">
+    <div class="col-md-4" style="margin-top:6px;">
+      <span>{{employeeCode}} {{userName}}</span>
+      <span style="margin-left: 20px;">{{ 'TOTAL_WORKING_HOURS' | translate:{'sumWorkHours': sumWorkHours} }}</span>
+    </div>
+    <div class="col-md-8" style="text-align:right">
+      <button type="button" class="btn btn-default" ng-click="buttonRestTimeClick()">
+        <span>{{ "REGIST_RESTTIME" | translate }}</span>
+      </button>
+      <button type="button" class="btn btn-default" ng-click="buttonGetImageClick(year, month)">
+        <span>{{ "DOWNLOAD_REPORT_IMAGE" | translate }}</span>
+      </button>
+      <button type="button" class="btn btn-default" ng-show="showExcelDownloadButton()" ng-click="buttonGetExcelClick(year, month)">
+        <span>{{ "DOWNLOAD_REPORT" | translate }}</span>
+      </button>
+      <button type="button" class="btn btn-default" ng-show="showExcelAllDownloadButton()" ng-click="buttonGetExcelAllClick(year, month)">
+        <span>{{ "DOWNLOAD_REPORT_ALL" | translate }}</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="row" style="margin-bottom:10px;">
+    <div class="col-md-4" style="margin-top:6px;"></div>
+    <div class="col-md-8" style="text-align:right">
+      <button type="button" class="btn btn-default" ng-click="downloadHelp()">
+        <span>{{ "DOWNLOAD_HELP" | translate }}</span>
+      </button>
+      <button type="button" class="btn btn-default" ng-show="showDownloadHelpButton()" ng-click="openUploadHelpModal()">
+        <span>{{ "UPLOAD_HELP" | translate }}</span>
+      </button>
+    </div>
+  </div>
+
+  <div style="margin-bottom:10px;">
+    <div>
+      <div class="col-md-4 reset-padding-lr">{{ "REPORT_ATTENDANCE_STATUS" | translate }}: {{
+        displayAttendanceStatus(attendanceStatus) }}</div>
+      <div class="col-md-8 reset-padding-lr" style="text-align:right; margin-bottom:5px;">
+        <button type="button" class="btn btn-default" style="text-align:right" ng-show="showSummaryCsvDownloadButton()"
+          ng-click="buttonGetSummaryCSVClick(year, month)">
+          <span>{{ "DOWNLOAD_SUMMARY_CSV" | translate }}</span>
+        </button>
+      </div>
+    </div>
+    <table class="table table-bordered summary-table">
+      <thead>
+        <tr>
+          <th class="success">{{ "ATTENDANCE_WORK_DAYS" | translate }}</th>
+          <th class="success">{{ "ATTENDANCE_HOLIDAY_WORK_DAYS" | translate }}</th>
+          <th class="success">{{ "ATTENDANCE_SPECIAL_HOLIDAY_DAYS" | translate }}</th>
+          <th class="success">{{ "ATTENDANCE_PAID_HOLIDAY_DAYS" | translate }}</th>
+          <th class="success">{{ "ATTENDANCE_ABSENCE_DAYS" | translate }}</th>
+          <th class="success"></th>
+          <th class="success">{{ "ATTENDANCE_WORK_HOURS" | translate }}</th>
+          <th class="success">{{ "ATTENDANCE_EXCLUDE_HOURS" | translate }}</th>
+          <th class="success">{{ "ATTENDANCE_OVERTIME_HOURS" | translate }}</th>
+          <th class="success">{{ "ATTENDANCE_HOLIDAY_WORK_HOURS" | translate }}</th>
+          <th class="success">{{ "ATTENDANCE_NIGHT_WORK_HOURS" | translate }}</th>
+          <th class="success">{{ "ATTENDANCE_EXCLUDE_COUNTS" | translate }}</th>
+          <th class="success">{{ "ATTENDANCE_NIGHT_WORK_COUNTS" | translate }}</th>
+          <th class="success">{{ "ATTENDANCE_TRAVEL_COST" | translate }}</th>
+          <th class="success">{{ "ATTENDANCE_COMMUTATION_COST" | translate }}</th>
+          <th class="success">{{ "ATTENDANCE_OVER60_HOURS" | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ attendanceSummary.workDays }}</td>
+          <td>{{ attendanceSummary.holidayWorkDays }}</td>
+          <td>{{ attendanceSummary.specialHolidayDays }}</td>
+          <td>{{ attendanceSummary.paidHolidayDays }}</td>
+          <td>{{ attendanceSummary.absenceDays }}</td>
+          <td></td>
+          <td>{{ attendanceSummary.workHours.toFixed(2) }}</td>
+          <td>{{ attendanceSummary.excludeHours.toFixed(2) }}</td>
+          <td>{{ attendanceSummary.overtimeHours.toFixed(2) }}</td>
+          <td>{{ attendanceSummary.holidayWorkHours.toFixed(2) }}</td>
+          <td>{{ attendanceSummary.nightWorkHours.toFixed(2) }}</td>
+          <td>{{ attendanceSummary.excludeCounts }}</td>
+          <td>{{ attendanceSummary.nightWorkCounts }}</td>
+          <td>{{ attendanceSummary.travelCost }}</td>
+          <td>{{ attendanceSummary.commuteCost }}</td>
+          <td>{{ attendanceSummary.over60Hours.toFixed(2) }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      <button type="button" class="btn btn-default" ng-show="showAttendApplicationButton(attendanceStatus)" ng-click="showUpdateAttendanceStatusModal(attendanceActions['applicate'])">
+        <span>{{ "ATTENDANCE_ACTION_APPLICATE" | translate }}</span>
+      </button>
+      <button type="button" class="btn btn-default" ng-show="showAttendMiddleButton(attendanceStatus)" ng-click="showUpdateAttendanceStatusModal(attendanceActions['accept_middle'])">
+        <span>{{ "ATTENDANCE_ACTION_ACCEPT_MIDDLE" | translate }}</span>
+      </button>
+      <button type="button" class="btn btn-default" ng-show="showAttendMiddleButton(attendanceStatus)" ng-click="showUpdateAttendanceStatusModal(attendanceActions['denegate_middle'])">
+        <span>{{ "ATTENDANCE_ACTION_DENEGATE_MIDDLE" | translate }}</span>
+      </button>
+      <button type="button" class="btn btn-default" ng-show="showAttendBetterButton(attendanceStatus)" ng-click="showUpdateAttendanceStatusModal(attendanceActions['accept_better'])">
+        <span>{{ "ATTENDANCE_ACTION_ACCEPT_BETTER" | translate }}</span>
+      </button>
+      <button type="button" class="btn btn-default" ng-show="showAttendBetterButton(attendanceStatus)" ng-click="showUpdateAttendanceStatusModal(attendanceActions['denegate_better'])">
+        <span>{{ "ATTENDANCE_ACTION_DENEGATE_BETTER" | translate }}</span>
+      </button>
+      <button type="button" class="btn btn-default" ng-show="showAttendTopButton(attendanceStatus)" ng-click="showUpdateAttendanceStatusModal(attendanceActions['accept_top'])">
+        <span>{{ "ATTENDANCE_ACTION_ACCEPT_TOP" | translate }}</span>
+      </button>
+      <button type="button" class="btn btn-default" ng-show="showAttendTopButton(attendanceStatus)" ng-click="showUpdateAttendanceStatusModal(attendanceActions['denegate_top'])">
+        <span>{{ "ATTENDANCE_ACTION_DENEGATE_TOP" | translate }}</span>
+      </button>
+      <button type="button" class="btn btn-default" ng-show="showAttendRevertTopButton(attendanceStatus)" ng-click="showUpdateAttendanceStatusModal(attendanceActions['revert_top'])">
+        <span>{{ "ATTENDANCE_ACTION_REVERT_TOP" | translate }}</span>
+      </button>
+    </div>
+  </div>
+
+  <ul class="nav nav-tabs" role="tablist">
+    <li ng-repeat="linkMonth in linkMonths" ng-class="currentLinkClass(linkMonth.year, linkMonth.month)">
+      <a ng-click="changeYearMonth(linkMonth.year, linkMonth.month)">{{ 'LINK_MONTH' | translate:linkMonth }}</a>
+    </li>
+  </ul>
+
+  <form name="userForm" novalidate>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>{{ 'DAY' | translate }}</th>
+          <th ng-show="showAttendApplicationButton(attendanceStatus)">{{ 'EDIT_TIME' | translate }}</th>
+          <th>{{ 'ATTENDANCE_TYPE' | translate }}</th>
+          <th>{{ 'IN_TIME' | translate }}</th>
+          <th>{{ 'OUT_TIME'| translate }}</th>
+          <th>{{ 'BREAK' | translate }}</th>
+          <th>{{ 'DAILY_WORKING_HOURS' | translate }}</th>
+          <th>{{ 'RECORDED_IN_TIME' | translate }}</th>
+          <th>{{ 'RECORDED_OUT_TIME' | translate }}</th>
+          <th>{{ 'REASON_FOR_EDITING' | translate }}</th>
+          <th ng-show="showAttendApplicationButton(attendanceStatus)">{{ 'OVERTIME_REQUEST' | translate }}</th>
+          <th>{{ "ADD_TRAVEL_COST" | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="attendanceLog in attendanceLogs" ng-form="attendanceForm" ng-class="{'warning': attendanceLog.modified, 'info': (attendanceLog.isSaturday && !attendanceLog.modified), 'danger': (attendanceLog.isHoliday && !attendanceLog.modified) }">
+          <td>{{attendanceLog.day}}</td>
+          <td ng-show="showAttendApplicationButton(attendanceStatus)">
+            <button type="button" class="btn btn-default" ng-click="buttonModifyClick(attendanceForm, attendanceLog)">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+          </td>
+          <td>
+            <select class="form-control attendanceTypeSelect" style="min-width: 150px;" name="attendanceType" ng-change="buttonModifyClick( attendanceForm, attendanceLog)"
+              ng-model="attendanceLog.attendanceType" ng-options="attendanceType._id as attendanceType.name for attendanceType in attendanceTypeList"
+              ng-disabled="!showAttendApplicationButton(attendanceStatus)">
+            </select>
+          </td>
+          <td class="align-right">
+            <span ng-show="showTime(attendanceForm, attendanceLog)" class="timecard-time-prefix">{{attendanceLog.inTimePrefix}}</span>
+            <span ng-show="showTime(attendanceForm, attendanceLog)">{{attendanceLog.editedInTimestamp | date: 'HH:mm'}}</span>
+          </td>
+          <td class="align-right">
+            <span ng-show="showTime(attendanceForm, attendanceLog)" class="timecard-time-prefix">{{attendanceLog.outTimePrefix}}</span>
+            <span ng-show="showTime(attendanceForm, attendanceLog)">{{attendanceLog.editedOutTimestamp | date:
+              'HH:mm'}}</span>
+          </td>
+          <td class="align-right">
+            <span ng-show="showTime(attendanceForm, attendanceLog)">
+              {{attendanceLog.editedRestTimestamp | date: 'HH:mm'}}
+            </span>
+          </td>
+          <td class="align-right">
+            <span ng-show="showTime(attendanceForm, attendanceLog)">
+              {{attendanceLog.workTimeString}}
+            </span>
+          </td>
+          <td class="align-right">
+            <span ng-show="showTime(attendanceForm, attendanceLog)">
+              {{attendanceLog.inTimestamp | date: 'yyyy-MM-dd HH:mm:ss'}}
+            </span>
+          </td>
+          <td class="align-right">
+            <span ng-show="showTime(attendanceForm, attendanceLog)">
+              {{attendanceLog.outTimestamp | date: 'yyyy-MM-dd HH:mm:ss'}}
+            </span>
+          </td>
+          <td id="attendance-reason">{{attendanceLog.reasonOfEditing}}</td>
+          <td ng-show="showAttendApplicationButton(attendanceStatus)">
+            <button type="button" class="btn btn-default" ng-click="showOvertimeRequestModal(attendanceLog)" ng-show="showOvertimeRequestButton(attendanceLog)">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
+            <p ng-show="attendanceLog.overtimeRequest">{{displayOvertimeRequestStatus(attendanceLog)}}</p>
+            <button type="button" class="btn btn-default" ng-click="showOvertimeRequestModal(attendanceLog)" ng-show="showOvertimeReviseButton(attendanceLog)">
+              <span>{{ 'REVISE' | translate }}</span>
+            </button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-default" ng-click="showTravelCostModal(attendanceLog)" ng-show="showAttendApplicationButton(attendanceStatus) && showTravelCostButton(attendanceLog)">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
+            <div class="align-right" ng-show="showTravelCostAmount(attendanceLog)">{{attendanceLog.travelCostTotal}} 円</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
+
+<div class="modal fade" id="timecardModalInput" tabindex="-1" role="dialog" aria-labelledby="timecardModalLabel"
+  aria-hidden="true" ng-show="timeCardModalOpen">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="buttonCancelTimecardClick()">
+          <span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span>
+        </button>
+        <h4 class="modal-title" id="timecardModalLabel"> {{month}}月{{day}}日({{timecardsDate|date:'EEE'}})</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th class="timecard-op"></th>
+              <th>{{ 'MATTER_NAME' | translate }}</th>
+              <th>{{ 'IN_TIME' | translate }}</th>
+              <th>{{ 'OUT_TIME'| translate }}</th>
+              <th>{{ 'REST_TIME' | translate }}</th>
+              <th>{{ 'WORKING_TIME' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="timecard in timecards" ng-form="timecardForm" ng-class="{'warning': timecard.modified }">
+              <td class="col-md-1 col-sm-1 col-xs-1 timecard-op">
+                <button type="button" class="btn btn-default" ng-show="buttonResetTimecardShow(timecardForm, timecard)"
+                  ng-click="buttonResetTimecardClick(timecardForm, timecard)">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </button>
+              </td>
+              <td class="col-md-4 col-sm-4 col-xs-4">
+                <select class="form-control" name="matter" ng-change="timecardMatterChange($event, timecardForm, timecard)"
+                  ng-model="timecard.matterId" ng-options="matter.id as matter.matterName for matter in matters">
+                </select>
+              </td>
+              <td class="col-md-2 col-sm-2 col-xs-2" style="width: 20%">
+                <div>
+                  <button type="button" class="btn btn-default btn-xs" style="padding:1px 3px;" aria-label="Left Align"
+                    ng-click="timecardChangeInDay($event, timecardForm, timecard, 'down')">前日</button>
+                  <button type="button" class="btn btn-default btn-xs" style="padding:1px 3px;" aria-label="Left Align"
+                    ng-click="timecardChangeInDay($event, timecardForm, timecard, 'up')">翌日</button>
+                </div>
+                <span class="timecard-time-prefix">{{timecard.inTimePrefix}}</span>
+                <div class="form-group timecard-time-form" ng-class="timecardTimePickerErrorClass(timecardForm, timecard)">
+                  <input type="text" class="form-control input-sm" style="font-size: small; margin-left:20px;padding: 0 5px;width: 80%; text-align:right;"
+                    name="editedInTimestamp" ng-class="timecardTimePickerClass(timecardForm, timecard)" size="5" length="1"
+                    ng-model="timecard.editedInTimestamp" data-time-format="HH:mm" data-time-type="date" data-min-time="00:00"
+                    data-max-time="23:59" data-autoclose="true" data-minute-step="15" data-use-native=""
+                    data-arrow-behavior="picker" ng-show="timecardTimePickerShow(timecardForm, timecard)" ng-init="timecardTimePickerInit($event, timecardForm, timecard)"
+                    ng-focus="timecardTimePickerFocus($event, timecardForm, timecard)" ng-blur="timecardTimePickerBlur($event, timecardForm, timecard)"
+                    ng-change="timecardTimePickerChange($event, timecardForm, timecard)" bs-timepicker>
+                </div>
+              </td>
+              <td class="col-md-2 col-sm-2 col-xs-2" style="width: 20%">
+                <div>
+                  <button type="button" class="btn btn-default btn-xs" style="padding:1px 3px;" aria-label="Left Align"
+                    ng-click="timecardChangeOutDay($event, timecardForm, timecard, 'down')">前日</button>
+                  <button type="button" class="btn btn-default btn-xs" style="padding:1px 3px;" aria-label="Left Align"
+                    ng-click="timecardChangeOutDay($event, timecardForm, timecard, 'up')">翌日</button>
+                </div>
+                <span class="timecard-time-prefix">{{timecard.outTimePrefix}}</span>
+                <div class="form-group timecard-time-form" ng-class="timecardTimePickerErrorClass(timecardForm, timecard)">
+                  <input type="text" class="form-control input-sm" style="font-size: small; margin-left:20px;padding: 0 5px;width: 80%; text-align:right;"
+                    name="editedOutTimestamp" ng-class="timecardTimePickerClass(timecardForm, timecard)" size="5"
+                    length="1" ng-model="timecard.editedOutTimestamp" data-time-format="HH:mm" data-time-type="date"
+                    data-min-time="00:00" data-max-time="23:59" data-autoclose="true" data-minute-step="15"
+                    data-use-native="" data-arrow-behavior="picker" ng-show="timecardTimePickerShow(timecardForm, timecard)"
+                    ng-init="timecardTimePickerInit($event, timecardForm, timecard)" ng-focus="timecardTimePickerFocus($event, timecardForm, timecard)"
+                    ng-blur="timecardTimePickerBlur($event, timecardForm, timecard)" ng-change="timecardTimePickerChange($event, timecardForm, timecard)"
+                    bs-timepicker>
+                </div>
+              </td>
+              <td class="col-md-2 col-sm-2 col-xs-2">
+                <div class="form-group" ng-class="timecardTimePickerErrorClass(timecardForm, timecard)">
+                  <input type="text" ng-model-options="{ debounce: 200 }" class="form-control input-sm" style="font-size: small;padding: 0 5px;width: 75%; text-align:right;"
+                    name="restMinutes" ng-class="timecardTimePickerClass(timecardForm, timecard)" size="5" length="1"
+                    ng-model="timecard.editedRestTimestamp" data-time-format="HH:mm" data-time-type="date"
+                    data-min-time="00:00" data-max-time="23:59" data-autoclose="true" data-minute-step="15"
+                    data-use-native="" data-arrow-behavior="picker" ng-show="timecardTimePickerShow(timecardForm, timecard)"
+                    ng-init="timecardTimePickerInit($event, timecardForm, timecard)" ng-focus="timecardTimePickerFocus($event, timecardForm, timecard)"
+                    ng-blur="timecardTimePickerBlur($event, timecardForm, timecard)" ng-change="timecardTimePickerChange($event, timecardForm, timecard)"
+                    bs-timepicker>
+                </div>
+              </td>
+              <td class="col-md-1 col-sm-1 col-xs-1" style="text-align: right;">
+                <div class="work-time">{{timecard.workTimeString}}</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="form-inline">
+          <button type="button" class="btn btn-default" ng-click="buttonTimecardAddClick()">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+          <div class="form-group">
+            <div class="text-danger" ng-repeat="error in timecard_errors">{{error}}</div>
+          </div>
+        </div>
+        <div class="form-horizontal">
+          <label class="control-label">備考</label>
+          <textarea class="form-control" rows="5" style="resize: none;" ng-model="_editingReasonText"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col-md-8">
+            <p style="text-align: left;"> {{ "TIME_CARD_ROUND_WARNING" | translate }} </p>
+          </div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="buttonCancelTimecardClick()">キャンセル</button>
+            <button type="button" class="btn btn-primary" id="timecardSendButton" ng-disabled="requesting || enableSendTimecardButton()"
+              ng-click="buttonSendTimecardClick()">申請</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade test" id="overtimeModalInput" tabindex="-1" role="dialog" aria-labelledby="overtimeModalLabel"
+  aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="buttonCancelOvertimeRequestClick()">
+          <span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span>
+        </button>
+        <h4 class="modal-title">{{ 'OVERTIME_REQUEST' | translate }}</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="form-group">
+            <label>{{ 'OVERTIME_REQUEST_TIME' | translate }}</label>
+            <input type="text" class="form-control" size="5" length="1" ng-model="overtimeRequestTime" ng-model-options="{ updateOn: 'blur' }"
+              data-time-format="HH:mm" data-time-type="date" data-min-time="00:00" data-max-time="23:45" data-autoclose="true"
+              data-minute-step="15" data-use-native="" data-arrow-behavior="picker" bs-timepicker />
+          </div>
+          <div class="form-group">
+            <label>{{ 'OVERTIME_REQUEST_REASON' | translate }}</label>
+            <input ng-model="overtimeRequestReason" type="text" class="form-control" placeholder="{{ 'OVERTIME_REQUEST_REASON_MESSAGE' | translate }}" />
+          </div>
+          <div class="form-group">
+            <label>{{ 'OWN_GROUP' | translate }}</label>
+            <select ng-change="getUsers()" class="form-control" ng-model="projectId" ng-options="g._id as g.name for g in projects"></select>
+          </div>
+          <div class="form-group">
+            <label>{{ 'APPROVER' | translate }}</label>
+            <select class="form-control" ng-model="overTimeRequestApproveUserId" ng-options="user._id as user.name for user in users"></select>
+          </div>
+        </form>
+
+        <div ng-show="remandText">
+          <label>{{ 'REMAND_REASON' | translate }}</label>
+          <br />
+          <span ng-bind-html="remandReasonText"></span>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-show="cancellBtn" ng-click="buttonCancelOvertimeRequestClick()">{{
+          'CANCEL' | translate }}</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-show="recallBtn" ng-click="recallOvertimeRequest()">{{
+          'RECALL' | translate }}</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-show="reviseBtn" ng-click="execOvertimeRequest()"
+          ng-disabled="overtimeRequestReason === '' || overTimeRequestApproveUserId === ''">{{ 'REVISE' | translate }}</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-show="requestBtn" ng-click="execOvertimeRequest()"
+          ng-disabled="overtimeRequestReason === '' || overTimeRequestApproveUserId === ''">{{ 'REQUEST' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="travelCostModalInput" tabindex="-1" role="dialog" aria-labelledby="travelCostModalLabel"
+  aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="closeTravelCostModal()">
+          <span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span>
+        </button>
+        <h4 class="modal-title">{{ 'ADD_TRAVEL_COST' | translate }}</h4>
+      </div>
+      <div class="modal-body">
+        <label>{{travelCostDate|date:'M'}}月{{travelCostDate|date:'d'}}日({{travelCostDate|date:'EEE'}})</label>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th class="travelcost-op"></th>
+              <th>
+                {{ 'TRAVELCOST_TYPE' | translate }}
+                <span id="travelcost-type-help" class="glyphicon glyphicon-question-sign"></span>
+              </th>
+              <th>
+                {{ 'TRAVELCOST_PURPOSE' | translate }}
+                <span id="travelcost-purpose-help" class="glyphicon glyphicon-question-sign"></span>
+              </th>
+              <th>
+                {{ 'TRAVELCOST_ROUTE' | translate }}
+                <span id="travelcost-route-help" class="glyphicon glyphicon-question-sign"></span>
+              </th>
+              <th>
+                {{ 'MONEY_AMOUNT' | translate }}
+                <span id="travelcost-amount-help" class="glyphicon glyphicon-question-sign"></span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="(itemIndex, item) in travelCost.items" ng-form="travelCostForm">
+              <td class="col-xs-1 travelcost-op">
+                <button type="button" class="btn btn-default" ng-click="clearTravelCostItem(itemIndex)">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </button>
+              </td>
+              <td class="col-xs-3">
+                <select class="form-control" ng-model="item.type" ng-options="type.key for type in travelCostTypeList track by type.value"></select>
+              </td>
+              <td class="col-xs-3">
+                <select class="form-control" ng-model="item.purpose" ng-options="purpose.key for purpose in travelCostPurposeList track by purpose.value"></select>
+              </td>
+              <td class="col-xs-3">
+                <div ng-repeat="(routeIndex, route) in item.routes track by $index" ng-form="travelCostForm">
+                  <div style="text-align: center;" ng-show="!$first">&#8595;</div>
+                  <input type="text" class="form-control" ng-model="item.routes[routeIndex]" ng-blur="blurTravelCostRoute(itemIndex, routeIndex)">
+                </div>
+                <button type="button" class="btn btn-default" ng-show="showAddTravelCostRoute(itemIndex)" ng-click="addTravelCostRoute(itemIndex)">
+                  <span class="glyphicon glyphicon-plus"></span>
+                </button>
+              </td>
+              <td class="col-xs-2">
+                <input type="text" class="form-control align-right" ng-model="item.amount" ng-change="changeTravelCostAmount()">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="form-horizontal reset-margin-lr">
+          <div class="form-group reset-margin-lr">
+            <div class="form-inline reset-margin-lr">
+              <div class="form-group col-md-1 col-sm-1 col-xs-1 reset-margin-lr">
+                <button type="button" class="btn btn-default" ng-click="addTravelCostItem()">
+                  <span class="glyphicon glyphicon-plus"></span>
+                </button>
+              </div>
+              <label class="control-label col-md-3 col-sm-3 col-xs-3 reset-margin-lr" ng-show="showBizTravelCostForm()">{{
+                'BIZ_TRAVEL_COST' | translate }}</label>
+              <input type="text" class="form-control col-md-3 col-sm-3 col-xs-3 reset-margin-lr" ng-show="showBizTravelCostForm()"
+                ng-model="travelCost.bizAmount">
+              <div class="form-group col-md-8 col-sm-8 col-xs-8 reset-margin-lr" ng-show="!showBizTravelCostForm()"></div>
+              <div class="form-group col-md-3 col-sm-3 col-xs-3 reset-margin-lr" style="text-align: right;">
+                <label class="control-label" style="padding-top: 0px;">{{ 'TOTAL' | translate }}</label>
+                <span>{{travelCostTotal}}円</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group text-danger" style="margin-left:18px;">
+            {{travelCostErrors[0].msg}}
+          </div>
+          <div class="form-horizontal">
+            <label class="control-label">備考</label>
+            <textarea class="form-control" rows="3" style="resize: none;" ng-model="travelCost.note"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="closeTravelCostModal()">{{ 'CANCEL' | translate }}</button>
+        <button type="button" class="btn btn-primary" ng-click="updateTravelCost()" ng-disabled="requesting">{{
+          'REQUEST' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade updateAttendanceStatus" id="updateAttendanceModalInput" tabindex="-1" role="dialog"
+  aria-labelledby="updateAttendanceStatusModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" ng-click="closeAttendanceStatusModal()">
+          <span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span>
+        </button>
+        <h4 class="modal-title">{{ displayAttendanceAction(attendanceAction) }}</h4>
+      </div>
+      <div class="modal-body">
+        <div ng-repeat="error in updateAttendanceStatusErrors" class="text-danger">
+          {{ error }}
+        </div>
+        <div ng-show="updateAttendanceStatusErrors.length == 0">
+          {{ displayAttendanceAction(attendanceAction) }} してよろしいですか？
+        </div>
+        <div ng-show="showAcceptedComment(attendanceAction)">
+          <label>コメント</label>
+          <textarea class="form-control input-sm" rows="5" style="resize: none;font-size: 80%;" ng-model="acceptComment"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="closeAttendanceStatusModal()">{{ 'CANCEL' | translate
+          }}</button>
+        <button type="button" class="btn btn-primary" ng-click="execAttendanceAction()" ng-disabled="requesting || updateAttendanceStatusErrors.length > 0">{{
+          displayAttendanceAction(attendanceAction) }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade uploadHelp" id="uploadHelpModal" tabindex="-1" role="dialog" aria-labelledby="uuploadHelpLabel"
+  aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" ng-click="closeUploadHelpModal()">
+          <span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span>
+        </button>
+        <h4 class="modal-title">Help アップロード</h4>
+      </div>
+      <div class="modal-body">
+        <button type="button" class="btn btn-default" ngf-select ng-model="helpFile">ファイル選択</button>
+        {{ helpFile.name }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="closeUploadHelpModal()">{{ 'CANCEL' | translate }}</button>
+        <button type="button" class="btn btn-primary" ng-click="uploadHelpFile()" ng-disabled="helpFile.name == null">{{
+          'UPLOAD' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>

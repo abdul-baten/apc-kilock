@@ -1,0 +1,163 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+  <form role="form">
+    <div class="btn-group">
+      <div class="form-inline">
+        <a class="btn btn-primary btn-xs" ng-href="{{passhistoriesUrl}}" ng-show="isShow('passHistories')" ng-disabled="!isPermit('passHistories')">{{ 'PASSAGE_HISTORY' | translate }}</a>
+        <a class="btn btn-primary btn-xs" ng-href="{{attendanceUrl}}" ng-show="isShow('attendance')" ng-disabled="!isPermit('attendance')">{{ 'ATTENDANCE' | translate }}</a>
+        <a class="btn btn-primary btn-xs" href="{{deviceUrl}}" ng-show="isShow('device')" ng-disabled="!isPermit('device')">{{deviceStatusMessage}}</a>
+        <a class="btn btn-primary btn-xs" href="{{mailListUrl}}" ng-show="isShow('maillist')" ng-disabled="!isPermit('maillist')">{{ 'REGISTERED_EMAIL_LIST' | translate }}</a>
+        <!-- <a class="btn btn-primary btn-xs" ng-show="isUserModify" ng-click="publishEmailRegistration()">{{ 'REGIST_EMAIL' | translate }}</a> -->
+      </div>
+    </div>
+    <h5 ng-show="isUserModify">
+      <strong>{{ 'USER_ID' | translate }}</strong>:&nbsp;{{createUserId(user)}}
+    </h5>
+    <div class="form-group" ng-show="isShow('name')" ng-class="isError('name')">
+      <label class="control-label">{{ 'NAME' | translate }}</label>
+      <div class="form-inline">
+        <input type="text" class="form-control input-sm input-sp" ng-model="user.name" ng-disabled="!isPermit('name')" placeholder="NAME">
+        <p class="form-control-static">{{user.employeeCode}} {{user.name}}</p>
+        <p class="bg-danger">{{errorMessage.name}}</p>
+      </div>
+    </div>
+    <div class="form-group" ng-show="isShow('mail')" ng-class="isError('mail')">
+      <label class="control-label">{{ 'EMAIL_ADDRESS' | translate }}</label>
+      <input type="email" class="form-control input-sm input-sp" ng-model="user.mail" ng-disabled="!isPermit('mail')" placeholder="Email address">
+    </div>
+    <div class="form-group" ng-show="isShow('extensionPhoneNumber')" ng-class="isError('extensionPhoneNumber')">
+      <label class="control-label">{{ 'EXTENTION_NUMBER' | translate }}</label>
+      <input type="text" class="form-control input-sm input-sp" ng-model="user.extensionPhoneNumber" ng-disabled="!isPermit('extensionPhoneNumber')">
+      <p class="bg-danger">{{errorMessage.extensionPhoneNumber}}</p>
+    </div>
+    <div class="form-group" ng-show="isShow('profile')" ng-class="isError('profile')">
+      <label class="control-label">{{ 'PROFILE' | translate }}</label>
+      <textarea rows="10" class="form-control" style="resize: none;font-size: 80%;" ng-model="user.profile" ng-disabled="!isPermit('profile')"></textarea>
+    </div>
+    <div class="form-group" ng-show="isShow('nfc')" ng-class="isError('nfc')" ng-repeat="nfc in user.nfcs">
+      <label class="control-label">{{ 'NFC' | translate }}</label>
+      <input type="text" class="form-control input-sm input-sp" ng-model="nfc.number" placeholder="NFC" ng-disabled="!isPermit('nfc')">
+    </div>
+    <div class="form-group" ng-show="isShow('imageurl')" ng-class="isError('imageurl')">
+      <label class="control-label">{{ 'IMAGE_URL' | translate }}</label>
+      <input type="text" class="form-control input-sm input-sp" ng-model="user.imageurl" placeholder="http://" ng-disabled="!isPermit('imageurl')">
+    </div>
+    <div class="form-group" ng-show="isShow('role') && roleExist()" ng-class="isError('role')">
+      <label class="control-label">{{ 'ROLE' | translate }}</label>
+      <div class="checkbox" ng-repeat="role in roles" ng-class="isError('role')">
+        <label><input type="checkbox" name="role" value="{{role._id}}" ng-model="checkRoles[role._id]" ng-disabled="!isPermit('role')" />{{ role.name | translate }}</label>
+      </div>
+    </div>
+    <label class="control-label">{{ 'AUTHORITY' | translate }}</label>
+    <div class="checkbox" ng-show="isShow('enabled')" ng-class="isError('enabled')">
+      <label><input type="checkbox" ng-model="user.enabled" ng-disabled="!isPermit('enabled')">{{ 'VALID' | translate }}</label>
+    </div>
+    <div class="checkbox" ng-show="isShow('doorOpen')" ng-class="isError('doorOpen')">
+      <label><input type="checkbox" ng-model="user.doorOpen" ng-disabled="!isPermit('doorOpen')">{{ 'UNLOCKING' | translate }}</label>
+    </div>
+    <div class="checkbox" ng-show="isShow('admin')" ng-class="isError('admin')">
+      <label><input type="checkbox" ng-model="user.admin" ng-disabled="!isPermit('admin')">{{ 'ADMINISTRATOR_ROLE' | translate }}</label>
+    </div>
+    <div class="checkbox" ng-show="isShow('top')" ng-class="isError('top')">
+      <label><input type="checkbox" ng-model="user.top" ng-disabled="!isPermit('top')">{{ 'TOPISTRATOR_ROLE' | translate }}</label>
+    </div>
+    <div ng-show="isShow('manageGroup')">
+      <label class="control-label">{{ 'MANAGE_GROUP' | translate }}</label>
+      <table class="table table-condensed table-sp">
+        <thead>
+          <tr>
+            <th>{{ 'PROJECT_NAME' | translate }}</th>
+            <th>{{ 'PERMISSIONS' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="project in projects">
+            <td>
+              {{ project.name }}
+            </td>
+            <td style="text-align: left">
+              <div class="checkbox reset-margin-tb">
+                <label>
+                  <input type="checkbox" name="role" value="{{project.group.id}}" ng-model="checkGroups[project.group.id]" ng-disabled="!isPermit('manageGroup')" />
+                  {{ 'ADMINISTRATOR_ROLE' | translate }}
+                </label>
+              </div>
+              <div class="checkbox reset-margin-tb">
+                <label>
+                  <input type="checkbox" name="role" value="{{project._id}}" ng-model="attendancePermissionProjects.middle[project._id]" ng-disabled="!isPermit('manageGroup')" />
+                  {{ 'ATTENDANCE_PERMISSION_MIDDLE' | translate }}
+                </label>
+              </div>
+              <div class="checkbox reset-margin-tb">
+                <label>
+                  <input type="checkbox" name="role" value="{{project._id}}" ng-model="attendancePermissionProjects.better[project._id]" ng-disabled="!isPermit('manageGroup')" />
+                  {{ 'ATTENDANCE_PERMISSION_BETTER' | translate }}
+                </label>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="form-group" ng-show="isShow('displayOrder')" ng-class="isError('order')">
+      <label class="control-label">{{ 'DISPLAY_ORDER' | translate }}</label>
+      <input type="text" class="form-control input-sm input-sp" ng-model="user.order" ng-disabled="!isPermit('displayOrder')">
+      <p class="bg-danger">{{errorMessage.order}}</p>
+    </div>
+    <button type="button" class="btn btn-primary btn-xs" ng-show="isShowEdit()" ng-click="submit()">{{ 'SUBMIT' | translate }}</button>
+    <button type="button" class="btn btn-danger btn-xs" ng-show="isShowDelete()" data-toggle="modal" data-target=".bs-example-modal-sm">{{ 'DELETE' | translate }}</button>
+    <div>
+      <p class="bg-success">{{infoMessage}}</p>
+    </div>
+  </form>
+
+  <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{ 'CONFIRMATION_OF_DELETE' | translate }}</h4>
+        </div>
+        <div class="modal-body">
+          <p>{{ 'このユーザの勤怠情報なども含めて削除されます。' | translate }}</p>
+          <p>{{ '削除しますか？' | translate }}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'CANCEL' | translate }}</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="delete()">{{ 'DELETE' | translate }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="mailRegistrationModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{ 'REGIST_EMAIL' | translate }}</h4>
+        </div>
+        <div class="modal-body">
+          <p>{{registrationMessage}}</p>
+          <p>
+            登録手続き用メールアドレス:<br>
+            {{registrationMailAddress}}
+          </p>
+          <p>
+            <qrcode data="{{registrationMailAddress}}" version="10"></qrcode>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  body {
+    padding-right: 0px !important
+  }
+
+  .modal-open {
+    overflow-y: auto;
+  }
+</style>

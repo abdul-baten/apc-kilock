@@ -1,0 +1,39 @@
+// Colors
+// --------------------------------------------------
+
+$btnText:                           #fff;
+$btnTextAlt:                        #000;
+
+$btnFacebookBackground:             #3B5998;
+$btnFacebookBackgroundHighlight:    #133783;
+$btnTwitterBackground:              #2daddc;
+$btnTwitterBackgroundHighlight:     #0271bf;
+$btnGooglePlusBackground:           #dd4b39;
+$btnGooglePlusBackgroundHighlight:  #c53727;
+$btnGithubBackground:               #fafafa;
+$btnGithubBackgroundHighlight:      #ccc;
+$btnCASBackground:                  #205081;
+$btnCASBackgroundHighlight:         #75ace5;
+
+// Social buttons
+// --------------------------------------------------
+
+.btn-area {
+  margin: 10px 0px 10px 0px;
+}
+
+.btn-facebook {
+  @include button-variant($btnText, $btnFacebookBackgroundHighlight, $btnFacebookBackgroundHighlight);
+}
+.btn-twitter {
+  @include button-variant($btnText, $btnTwitterBackground, $btnTwitterBackgroundHighlight);
+}
+.btn-google-plus {
+  @include button-variant($btnText, $btnGooglePlusBackground, $btnGooglePlusBackgroundHighlight);
+}
+.btn-github {
+  @include button-variant($btnTextAlt, $btnGithubBackground, $btnGithubBackgroundHighlight);
+}
+.btn-cas {
+  @include button-variant($btnText, $btnCASBackground, $btnCASBackgroundHighlight);
+}
